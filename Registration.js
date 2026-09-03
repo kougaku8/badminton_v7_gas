@@ -1099,36 +1099,38 @@ function registerOneActivityCore(data) {
     Logger.log("参加申込みFCM通知送信失败: " + error.message);
   }
 
-  /**************************************************
-   * V1 → V2
-   * REGISTRATION_OK
-   *
-   * 只有正式报名 CONFIRMED 才发送。
-   **************************************************/
+/**************************************************
+ * V1 → V2
+ * REGISTRATION_OK
+ *
+ * 只有正式报名 CONFIRMED 才发送。
+ **************************************************/
 
-  if (status === CONFIG.STATUS.CONFIRMED) {
-    try {
-      sendRegistrationOkNotificationToV2_({
-        activityID: activityID,
+if (status === CONFIG.STATUS.CONFIRMED) {
+  try {
+    sendRegistrationOkNotificationToV2_({
+      activityID: activityID,
 
-        activityTitle: activity.Title || "",
+      activityTitle: activity.Title || "",
 
-        activityDate: activity.ActivityDate || "",
+      activityDate: activity.ActivityDate || "",
 
-        startTime: activity.StartTime || "",
+      startTime: activity.StartTime || "",
 
-        participantName: name || "",
+      participantName: name || "",
 
-        confirmedCount: confirmedCount + 1,
+      confirmedCount:
+        confirmedCount + 1,
 
-        capacity: capacity,
-      });
-    } catch (error) {
-      Logger.log(
-        "V1 → V2 REGISTRATION_OK 通知失败: " + (error.message || error),
-      );
-    }
+      capacity: capacity,
+    });
+  } catch (error) {
+    Logger.log(
+      "V1 → V2 REGISTRATION_OK 通知失败: " +
+        (error.message || error)
+    );
   }
+}
 
   /**************************************************
    * 返回
