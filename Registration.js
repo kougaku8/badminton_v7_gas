@@ -1100,6 +1100,37 @@ function registerOneActivityCore(data) {
   }
 
   /**************************************************
+   * V1 → V2
+   * REGISTRATION_OK
+   *
+   * 只有正式报名 CONFIRMED 才发送。
+   **************************************************/
+
+  if (status === CONFIG.STATUS.CONFIRMED) {
+    try {
+      sendRegistrationOkNotificationToV2_({
+        activityID: activityID,
+
+        activityTitle: activity.Title || "",
+
+        activityDate: activity.ActivityDate || "",
+
+        startTime: activity.StartTime || "",
+
+        participantName: name || "",
+
+        confirmedCount: confirmedCount + 1,
+
+        capacity: capacity,
+      });
+    } catch (error) {
+      Logger.log(
+        "V1 → V2 REGISTRATION_OK 通知失败: " + (error.message || error),
+      );
+    }
+  }
+
+  /**************************************************
    * 返回
    **************************************************/
 

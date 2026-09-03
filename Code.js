@@ -392,6 +392,16 @@ function createActivityCore(data) {
   appendRow(CONFIG.SHEETS.ACTIVITIES, row);
 
   // =========================
+  // V2へ「新しい活動」通知
+  // =========================
+
+  try {
+    sendActivityNewNotificationToV2_(data);
+  } catch (error) {
+    console.error("V2 ACTIVITY_NEW 通知送信失敗:", error);
+  }
+
+  // =========================
   // 管理者へFCM通知
   // =========================
 
@@ -968,11 +978,10 @@ function searchMembers(keyword) {
         level: level || "",
       };
     } else if (!members[name].level && level) {
-
-    /*
-     * 如果之前没有 Level，
-     * 后面找到有 Level 的记录就补上
-     */
+      /*
+       * 如果之前没有 Level，
+       * 后面找到有 Level 的记录就补上
+       */
       members[name].level = level;
     }
   }
@@ -1336,6 +1345,19 @@ function updateActivity(data) {
     sheet.getRange(rowNumber, updatedCol + 1).setValue(new Date());
 
     // =========================
+    // V2へ「活动修改」通知
+    // =========================
+
+    try {
+      sendActivityUpdateNotificationToV2_({
+        activityDate: data.activityDate,
+        title: title,
+      });
+    } catch (error) {
+      console.error("V2 ACTIVITY_UPDATE 通知送信失敗:", error);
+    }
+
+    // =========================
     // 返回
     // =========================
 
@@ -1372,4 +1394,286 @@ function testScriptInfo() {
     "ADMIN_FCM_TOKEN = " +
       PropertiesService.getScriptProperties().getProperty("ADMIN_FCM_TOKEN"),
   );
+}
+
+function getV1ApiKey_() {
+  const apiKey =
+    PropertiesService.getScriptProperties().getProperty("V1_API_KEY");
+
+  if (!apiKey) {
+    throw new Error("V1_API_KEY が Script Properties に設定されていません。");
+  }
+
+  return String(apiKey).trim();
+}
+
+function sendActivityNewNotificationToV2_(data) {
+  const v2Url = PropertiesService.getScriptProperties().getProperty(
+    "V2_NOTIFICATION_API_URL",
+  );
+
+  if (!v2Url) {
+    throw new Error(
+      "V2_NOTIFICATION_API_URL が Script Properties に設定されていません。",
+    );
+  }
+
+  const payload = {
+    action: "sendNotificationEvent",
+
+    data: {
+      apiKey: getV1ApiKey_(),
+
+      eventType: "ACTIVITY_NEW",
+
+      titleZh: "羽毛球活动通知",
+
+      bodyZh:
+        (data.activityDate || "") + " " + (data.title || "") + " 开始报名。",
+
+      titleJa: "バドミントン活動のお知らせ",
+
+      bodyJa:
+        (data.activityDate || "") +
+        "の" +
+        (data.title || "") +
+        "の申込みを開始しました。",
+    },
+  };
+
+  const response = UrlFetchApp.fetch(v2Url, {
+    method: "post",
+
+    contentType: "application/json",
+
+    payload: JSON.stringify(payload),
+
+    muteHttpExceptions: true,
+  });
+
+  const statusCode = response.getResponseCode();
+
+  const responseText = response.getContentText();
+
+  console.log("V2 Notification API HTTP: " + statusCode);
+
+  console.log("V2 Notification API response: " + responseText);
+
+  if (statusCode < 200 || statusCode >= 300) {
+    throw new Error(
+      "V2 Notification API HTTP error: " + statusCode + " / " + responseText,
+    );
+  }
+
+  let result;
+
+  try {
+    result = JSON.parse(responseText);
+  } catch (error) {
+    throw new Error("V2 Notification API 返回的 JSON 无法解析。");
+  }
+
+  if (!result.success) {
+    throw new Error(
+      "V2 Notification API failed: " + (result.message || "Unknown error"),
+    );
+  }
+
+  return result;
+}
+
+function testSendActivityNewNotificationToV2() {
+  const testData = {
+    title: "V1→V2 测试活动",
+    activityDate: "9月5日",
+    startTime: "18:00",
+    endTime: "20:00",
+  };
+
+  const result = sendActivityNewNotificationToV2_(testData);
+
+  console.log("===== V1 → V2 ACTIVITY_NEW TEST =====");
+
+  console.log(JSON.stringify(result, null, 2));
+}
+
+function sendActivityUpdateNotificationToV2_(data) {
+  const v2Url = PropertiesService.getScriptProperties().getProperty(
+    "V2_NOTIFICATION_API_URL",
+  );
+
+  if (!v2Url) {
+    throw new Error(
+      "V2_NOTIFICATION_API_URL が Script Properties に設定されていません。",
+    );
+  }
+
+  const payload = {
+    action: "sendNotificationEvent",
+
+    data: {
+      apiKey: getV1ApiKey_(),
+
+      eventType: "ACTIVITY_UPDATE",
+
+      titleZh: "羽毛球活动变更通知",
+
+      bodyZh:
+        (data.activityDate || "") +
+        " " +
+        (data.title || "") +
+        " 的活动内容已变更，请查看最新活动信息。",
+
+      titleJa: "バドミントン活動変更のお知らせ",
+
+      bodyJa:
+        (data.activityDate || "") +
+        "の" +
+        (data.title || "") +
+        "の内容が変更されました。最新情報をご確認ください。",
+    },
+  };
+
+  const response = UrlFetchApp.fetch(v2Url, {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+  });
+
+  const statusCode = response.getResponseCode();
+
+  const responseText = response.getContentText();
+
+  console.log("V2 ACTIVITY_UPDATE HTTP: " + statusCode);
+
+  console.log("V2 ACTIVITY_UPDATE response: " + responseText);
+
+  if (statusCode < 200 || statusCode >= 300) {
+    throw new Error(
+      "V2 ACTIVITY_UPDATE HTTP error: " + statusCode + " / " + responseText,
+    );
+  }
+
+  let result;
+
+  try {
+    result = JSON.parse(responseText);
+  } catch (error) {
+    throw new Error("V2 ACTIVITY_UPDATE 返回的 JSON 无法解析。");
+  }
+
+  if (!result.success) {
+    throw new Error(
+      "V2 ACTIVITY_UPDATE failed: " + (result.message || "Unknown error"),
+    );
+  }
+
+  return result;
+}
+
+function sendRegistrationOkNotificationToV2_(data) {
+  const v2Url = PropertiesService.getScriptProperties().getProperty(
+    "V2_NOTIFICATION_API_URL",
+  );
+
+  if (!v2Url) {
+    throw new Error(
+      "V2_NOTIFICATION_API_URL が Script Properties に設定されていません。",
+    );
+  }
+
+  const participantName = String(data.participantName || "").trim();
+
+  const activityTitle = String(data.activityTitle || "").trim();
+
+  const activityDate = String(data.activityDate || "").trim();
+
+  const startTime = String(data.startTime || "").trim();
+
+  const confirmedCount = Number(data.confirmedCount || 0);
+
+  const capacity = Number(data.capacity || 0);
+
+  const payload = {
+    action: "sendNotificationEvent",
+
+    data: {
+      apiKey: getV1ApiKey_(),
+
+      eventType: "REGISTRATION_OK",
+
+      titleZh: "🏸 新报名通知",
+
+      bodyZh:
+        participantName +
+        " 已报名 " +
+        activityTitle +
+        "。\n" +
+        activityDate +
+        " " +
+        startTime +
+        "\n" +
+        "目前报名人数：" +
+        confirmedCount +
+        " / " +
+        capacity,
+
+      titleJa: "🏸 新しい参加申込み",
+
+      bodyJa:
+        participantName +
+        "さんが" +
+        activityTitle +
+        "に申し込みました。\n" +
+        activityDate +
+        " " +
+        startTime +
+        "\n" +
+        "現在の参加人数：" +
+        confirmedCount +
+        " / " +
+        capacity,
+    },
+  };
+
+  const response = UrlFetchApp.fetch(v2Url, {
+    method: "post",
+
+    contentType: "application/json",
+
+    payload: JSON.stringify(payload),
+
+    muteHttpExceptions: true,
+  });
+
+  const statusCode = response.getResponseCode();
+
+  const responseText = response.getContentText();
+
+  console.log("V2 REGISTRATION_OK HTTP: " + statusCode);
+
+  console.log("V2 REGISTRATION_OK response: " + responseText);
+
+  if (statusCode < 200 || statusCode >= 300) {
+    throw new Error(
+      "V2 REGISTRATION_OK HTTP error: " + statusCode + " / " + responseText,
+    );
+  }
+
+  let result;
+
+  try {
+    result = JSON.parse(responseText);
+  } catch (error) {
+    throw new Error("V2 REGISTRATION_OK 返回的 JSON 无法解析。");
+  }
+
+  if (!result.success) {
+    throw new Error(
+      "V2 REGISTRATION_OK failed: " + (result.message || "Unknown error"),
+    );
+  }
+
+  return result;
 }
