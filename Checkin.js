@@ -314,9 +314,7 @@ function testListRegistrations() {
 
 function testCheckinsSheet() {
   const sheet = getSheet(CONFIG.SHEETS.CHECKINS);
-  const headers = sheet
-    .getRange(1, 1, 1, sheet.getLastColumn())
-    .getValues()[0];
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
 
   Logger.log(JSON.stringify(headers));
 }
