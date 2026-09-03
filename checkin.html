@@ -1,0 +1,2446 @@
+<!doctype html>
+<html>
+  <head>
+    <base target="_top" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
+        background: linear-gradient(180deg, #eef7ff 0%, #f7f9fc 100%);
+
+        color: #222;
+      }
+
+      body {
+        padding: 16px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      /* ==================================================
+       顶部
+    ================================================== */
+
+      .header {
+        text-align: center;
+        padding: 10px 5px 18px;
+      }
+
+      .header-title {
+        margin: 0;
+
+        font-size: 34px;
+        line-height: 1.25;
+
+        font-weight: 900;
+
+        color: #1565c0;
+      }
+
+      .header-subtitle {
+        margin: 10px 0 0;
+
+        font-size: 20px;
+
+        color: #667085;
+
+        font-weight: 600;
+      }
+
+      /* ==================================================
+       语言
+    ================================================== */
+
+      .language-switcher {
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        gap: 8px;
+
+        margin-bottom: 18px;
+      }
+
+      .language-button {
+        width: auto;
+
+        min-width: 92px;
+
+        padding: 10px 18px;
+
+        margin: 0;
+
+        border: 2px solid #d0d7de;
+
+        border-radius: 999px;
+
+        background: white;
+
+        color: #555;
+
+        font-size: 18px;
+
+        font-weight: 800;
+      }
+
+      .language-button.active {
+        background: #1976d2;
+
+        border-color: #1976d2;
+
+        color: white;
+      }
+
+      .language-divider {
+        color: #aaa;
+
+        font-size: 20px;
+      }
+
+      /* ==================================================
+       返回首页
+    ================================================== */
+
+      .home-button {
+        width: 100%;
+
+        min-height: 52px;
+
+        margin: 0 0 16px;
+
+        padding: 10px 18px;
+
+        border: 2px solid #d8e5f2;
+
+        border-radius: 14px;
+
+        background: white;
+
+        color: #1565c0;
+
+        font-size: 19px;
+
+        font-weight: 900;
+
+        box-shadow: 0 3px 12px rgba(21, 101, 192, 0.08);
+      }
+
+      .home-button:active {
+        transform: scale(0.98);
+
+        background: #f0f7ff;
+      }
+
+      /* ==================================================
+       今日签到 ID
+    ================================================== */
+
+      .checkin-id-card {
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+
+        color: white;
+
+        border-radius: 24px;
+
+        padding: 24px 20px;
+
+        margin-bottom: 16px;
+
+        text-align: center;
+
+        box-shadow: 0 10px 30px rgba(21, 101, 192, 0.25);
+      }
+
+      .checkin-id-label {
+        font-size: 20px;
+
+        font-weight: 700;
+
+        opacity: 0.95;
+
+        margin-bottom: 8px;
+      }
+
+      .checkin-id {
+        font-size: 42px;
+
+        line-height: 1.15;
+
+        font-weight: 900;
+
+        letter-spacing: 2px;
+
+        word-break: break-all;
+      }
+
+      .checkin-activity-title {
+        margin-top: 12px;
+
+        font-size: 21px;
+
+        font-weight: 800;
+      }
+
+      .checkin-date {
+        margin-top: 6px;
+
+        font-size: 18px;
+
+        opacity: 0.95;
+      }
+
+      .id-empty {
+        font-size: 25px;
+
+        font-weight: 800;
+
+        padding: 10px 0;
+      }
+
+      /* ==================================================
+       卡片
+    ================================================== */
+
+      .card {
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 20px;
+
+        margin-bottom: 16px;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+      }
+
+      .card-title {
+        font-size: 24px;
+
+        font-weight: 900;
+
+        margin-bottom: 12px;
+      }
+
+      /* ==================================================
+       输入
+    ================================================== */
+
+      label {
+        display: block;
+
+        font-size: 20px;
+
+        font-weight: 800;
+
+        margin-top: 14px;
+      }
+
+      input,
+      select {
+        width: 100%;
+
+        min-height: 58px;
+
+        padding: 12px 15px;
+
+        margin-top: 8px;
+
+        border: 2px solid #d5dbe3;
+
+        border-radius: 14px;
+
+        background: white;
+
+        font-size: 20px;
+
+        color: #222;
+
+        outline: none;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #1976d2;
+
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
+      }
+
+      /* ==================================================
+       按钮
+    ================================================== */
+
+      button {
+        width: 100%;
+
+        min-height: 58px;
+
+        padding: 12px 18px;
+
+        margin-top: 12px;
+
+        border: none;
+
+        border-radius: 14px;
+
+        background: #1976d2;
+
+        color: white;
+
+        font-size: 20px;
+
+        font-weight: 900;
+
+        cursor: pointer;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      .load-button {
+        background: linear-gradient(135deg, #1976d2, #42a5f5);
+      }
+
+      /* ==================================================
+       今日活动选择
+    ================================================== */
+
+      .today-activity-list {
+        display: grid;
+
+        gap: 10px;
+
+        margin-top: 12px;
+      }
+
+      .activity-option {
+        width: 100%;
+
+        text-align: left;
+
+        background: #f7faff;
+
+        color: #123;
+
+        border: 2px solid #d9e8f8;
+
+        min-height: 70px;
+
+        margin: 0;
+
+        border-radius: 15px;
+
+        padding: 12px 15px;
+      }
+
+      .activity-option.active {
+        background: #e3f2fd;
+
+        border-color: #1976d2;
+
+        color: #0d47a1;
+      }
+
+      .activity-option-title {
+        font-size: 21px;
+
+        font-weight: 900;
+      }
+
+      .activity-option-info {
+        font-size: 17px;
+
+        margin-top: 5px;
+
+        color: #666;
+      }
+
+      /* ==================================================
+       统计
+    ================================================== */
+
+      .summary {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 12px;
+      }
+
+      .summary-box {
+        border-radius: 18px;
+
+        padding: 18px;
+
+        text-align: center;
+
+        background: #f5f7fa;
+      }
+
+      .summary-number {
+        font-size: 36px;
+
+        font-weight: 900;
+
+        color: #1976d2;
+      }
+
+      .summary-label {
+        margin-top: 5px;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        color: #666;
+      }
+
+      .summary-box.checked-summary {
+        background: #e8f5e9;
+      }
+
+      .checked-summary .summary-number {
+        color: #2e7d32;
+      }
+
+      /* ==================================================
+       搜索
+    ================================================== */
+
+      .search-input {
+        margin-top: 0;
+      }
+
+      /* ==================================================
+       会员
+    ================================================== */
+
+      .member-card {
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 20px;
+
+        margin-bottom: 14px;
+
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+
+        border-left: 7px solid #bdbdbd;
+      }
+
+      .member-card.checked {
+        background: #f0fff3;
+
+        border-left-color: #2e7d32;
+      }
+
+      .member-name {
+        font-size: 28px;
+
+        font-weight: 900;
+
+        margin-bottom: 10px;
+
+        word-break: break-word;
+      }
+
+      .member-info {
+        font-size: 20px;
+
+        line-height: 1.7;
+
+        color: #555;
+      }
+
+      .member-status {
+        display: inline-block;
+
+        margin-top: 10px;
+
+        padding: 7px 13px;
+
+        border-radius: 999px;
+
+        font-size: 18px;
+
+        font-weight: 900;
+      }
+
+      .status-not {
+        background: #fff3e0;
+
+        color: #ef6c00;
+      }
+
+      .status-checked {
+        background: #c8e6c9;
+
+        color: #1b5e20;
+      }
+
+      .payment-select {
+        margin-top: 14px;
+      }
+
+      .checkin-button {
+        background: linear-gradient(135deg, #2e7d32, #43a047);
+
+        min-height: 64px;
+
+        font-size: 22px;
+      }
+
+      /* ==================================================
+       空状态
+    ================================================== */
+
+      .empty {
+        background: white;
+
+        border-radius: 20px;
+
+        padding: 35px 20px;
+
+        text-align: center;
+
+        color: #777;
+
+        font-size: 21px;
+
+        font-weight: 700;
+      }
+
+      .error {
+        color: #c62828;
+
+        background: #ffebee;
+
+        border-radius: 15px;
+
+        padding: 16px;
+
+        font-size: 18px;
+
+        font-weight: 700;
+      }
+
+      .success-message {
+        background: #e8f5e9;
+
+        color: #2e7d32;
+
+        border-radius: 15px;
+
+        padding: 16px;
+
+        font-size: 20px;
+
+        font-weight: 800;
+
+        margin-bottom: 14px;
+      }
+
+      /* ==================================================
+       手机
+    ================================================== */
+
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+
+        .header-title {
+          font-size: 31px;
+        }
+
+        .header-subtitle {
+          font-size: 19px;
+        }
+
+        .checkin-id {
+          font-size: 38px;
+        }
+
+        .checkin-id-label {
+          font-size: 19px;
+        }
+
+        .member-name {
+          font-size: 27px;
+        }
+
+        input,
+        select,
+        button {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- ==================================================
+       顶部
+  ================================================== -->
+
+      <div class="header">
+        <div class="language-switcher">
+          <button
+            type="button"
+            id="langZh"
+            class="language-button active"
+            onclick="setLanguage('zh')"
+          >
+            中文
+          </button>
+
+          <span class="language-divider"> | </span>
+
+          <button
+            type="button"
+            id="langJa"
+            class="language-button"
+            onclick="setLanguage('ja')"
+          >
+            日本語
+          </button>
+        </div>
+
+        <!-- ==================================================
+         返回首页
+    ================================================== -->
+
+        <button
+          type="button"
+          class="home-button"
+          onclick="goHome()"
+          data-i18n="home"
+        >
+          🏠 返回首页
+        </button>
+
+        <h1 class="header-title" data-i18n="title">🏸 今日签到</h1>
+
+        <div class="header-subtitle" data-i18n="subtitle">
+          找到你的报名，完成签到
+        </div>
+      </div>
+
+      <!-- ==================================================
+       今日签到 ID
+  ================================================== -->
+
+      <div class="checkin-id-card">
+        <div class="checkin-id-label" data-i18n="todayCheckinID">
+          📌 今日签到 ID
+        </div>
+
+        <div id="displayCheckinID" class="checkin-id">—</div>
+
+        <div id="displayActivityTitle" class="checkin-activity-title">
+          请先选择活动
+        </div>
+
+        <div id="displayDate" class="checkin-date"></div>
+      </div>
+
+      <!-- ==================================================
+       活动选择
+  ================================================== -->
+
+      <div class="card">
+        <div class="card-title" data-i18n="selectActivity">📅 选择今日活动</div>
+
+        <div id="todayActivityList" class="today-activity-list">
+          <div class="empty" data-i18n="loading">正在读取今日活动……</div>
+        </div>
+
+        <label for="activityID" data-i18n="activityID"> 活动 / 签到 ID </label>
+
+        <input
+          id="activityID"
+          type="text"
+          placeholder="例如：ACT000001"
+          data-i18n-placeholder="activityPlaceholder"
+          autocomplete="off"
+        />
+
+        <button
+          type="button"
+          class="load-button"
+          onclick="loadList()"
+          data-i18n="loadList"
+        >
+          🔍 加载签到名单
+        </button>
+      </div>
+
+      <!-- ==================================================
+       统计
+  ================================================== -->
+
+      <div class="card">
+        <div class="summary">
+          <div class="summary-box checked-summary">
+            <div id="checkedCount" class="summary-number">0</div>
+
+            <div class="summary-label" data-i18n="checked">已签到</div>
+          </div>
+
+          <div class="summary-box">
+            <div id="totalCount" class="summary-number">0</div>
+
+            <div class="summary-label" data-i18n="total">总人数</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================
+       搜索
+  ================================================== -->
+
+      <div class="card">
+        <div class="card-title" data-i18n="search">🔎 搜索参加者</div>
+
+        <input
+          id="keyword"
+          class="search-input"
+          type="text"
+          placeholder="姓名 / 联系方式"
+          data-i18n-placeholder="searchPlaceholder"
+          oninput="search()"
+        />
+      </div>
+
+      <!-- ==================================================
+       消息
+  ================================================== -->
+
+      <div id="messageArea"></div>
+
+      <!-- ==================================================
+       名单
+  ================================================== -->
+
+      <div id="list">
+        <div class="empty" data-i18n="pleaseSelect">请先选择活动</div>
+      </div>
+    </div>
+
+    <script>
+
+      /* =====================================================
+         Web App URL
+      ===================================================== */
+
+      /*
+       * 这里使用 Apps Script Template 注入的 webAppUrl。
+       *
+       * doGet() 中已经有：
+       *
+       * t.webAppUrl =
+       *   ScriptApp.getService().getUrl();
+       *
+       */
+
+      const WEB_APP_URL =
+        <?!= JSON.stringify(webAppUrl || "") ?>;
+
+
+      /* =====================================================
+         返回首页
+      ===================================================== */
+
+      function goHome() {
+
+        if (!WEB_APP_URL) {
+
+          alert(
+            currentLanguage === "ja"
+              ? "ホームページのURLを取得できません。"
+              : "无法取得首页地址。"
+          );
+
+          return;
+
+        }
+
+
+        /*
+         * 使用当前 Web App 地址返回首页
+         */
+
+        const homeUrl =
+          WEB_APP_URL +
+          "?page=index";
+
+
+        /*
+         * Google Apps Script Web App
+         * 可能处于 iframe 中。
+         *
+         * 使用 top 可以确保整个页面返回首页。
+         */
+
+        try {
+
+          window.top.location.href =
+            homeUrl;
+
+        } catch (error) {
+
+          window.location.href =
+            homeUrl;
+
+        }
+
+      }
+
+
+      /* =====================================================
+         多语言
+      ===================================================== */
+
+      const I18N = {
+
+        zh: {
+
+          home:
+            "🏠 返回首页",
+
+          title:
+            "🏸 今日签到",
+
+          subtitle:
+            "找到你的报名，完成签到",
+
+          todayCheckinID:
+            "📌 今日签到 ID",
+
+          selectActivity:
+            "📅 选择今日活动",
+
+          activityID:
+            "活动 / 签到 ID",
+
+          activityPlaceholder:
+            "例如：ACT000001",
+
+          loadList:
+            "🔍 加载签到名单",
+
+          checked:
+            "已签到",
+
+          total:
+            "总人数",
+
+          search:
+            "🔎 搜索参加者",
+
+          searchPlaceholder:
+            "姓名 / 联系方式",
+
+          pleaseSelect:
+            "请先选择活动",
+
+          loading:
+            "正在读取今日活动……",
+
+          noTodayActivity:
+            "今天没有可签到的活动",
+
+          loadingList:
+            "正在加载签到名单……",
+
+          noMembers:
+            "没有找到参加者",
+
+          notChecked:
+            "⏳ 未签到",
+
+          checkedStatus:
+            "✅ 已签到",
+
+          level:
+            "等级",
+
+          payment:
+            "付款方式",
+
+          cash:
+            "现金",
+
+          paypay:
+            "PayPay",
+
+          unpaid:
+            "未付款",
+
+          free:
+            "免费",
+
+          checkin:
+            "✅ 签到",
+
+          checkinSuccess:
+            "签到成功",
+
+          loadFailed:
+            "加载失败：",
+
+          checkinFailed:
+            "签到失败：",
+
+          activityNotFound:
+            "没有找到这个活动",
+
+          activityLoaded:
+            "签到名单已加载",
+
+          today:
+            "今天",
+
+          members:
+            "人"
+
+        },
+
+
+        ja: {
+
+          home:
+            "🏠 ホームに戻る",
+
+          title:
+            "🏸 本日のチェックイン",
+
+          subtitle:
+            "参加者を確認してチェックイン",
+
+          todayCheckinID:
+            "📌 本日のチェックイン ID",
+
+          selectActivity:
+            "📅 本日のイベントを選択",
+
+          activityID:
+            "イベント / チェックイン ID",
+
+          activityPlaceholder:
+            "例：ACT000001",
+
+          loadList:
+            "🔍 参加者一覧を読み込む",
+
+          checked:
+            "チェックイン済み",
+
+          total:
+            "参加人数",
+
+          search:
+            "🔎 参加者を検索",
+
+          searchPlaceholder:
+            "名前 / 連絡先",
+
+          pleaseSelect:
+            "イベントを選択してください",
+
+          loading:
+            "本日のイベントを読み込んでいます……",
+
+          noTodayActivity:
+            "本日のチェックイン可能なイベントはありません",
+
+          loadingList:
+            "参加者一覧を読み込んでいます……",
+
+          noMembers:
+            "参加者が見つかりません",
+
+          notChecked:
+            "⏳ 未チェックイン",
+
+          checkedStatus:
+            "✅ チェックイン済み",
+
+          level:
+            "レベル",
+
+          payment:
+            "支払い方法",
+
+          cash:
+            "現金",
+
+          paypay:
+            "PayPay",
+
+          unpaid:
+            "未払い",
+
+          free:
+            "無料",
+
+          checkin:
+            "✅ チェックイン",
+
+          checkinSuccess:
+            "チェックインしました",
+
+          loadFailed:
+            "読み込み失敗：",
+
+          checkinFailed:
+            "チェックイン失敗：",
+
+          activityNotFound:
+            "イベントが見つかりません",
+
+          activityLoaded:
+            "参加者一覧を読み込みました",
+
+          today:
+            "本日",
+
+          members:
+            "人"
+
+        }
+
+      };
+
+
+      let currentLanguage =
+        localStorage.getItem("language") || "zh";
+
+
+      let members = [];
+
+      let allTodayActivities = [];
+
+      let currentActivityID = "";
+
+
+      /* =====================================================
+         翻译
+      ===================================================== */
+
+      function t(key) {
+
+        const lang =
+          I18N[currentLanguage] || I18N.zh;
+
+
+        return (
+          lang[key] !== undefined
+            ? lang[key]
+            : I18N.zh[key] || key
+        );
+
+      }
+
+
+      /* =====================================================
+         切换语言
+      ===================================================== */
+
+      function setLanguage(lang) {
+
+        if (!I18N[lang]) {
+
+          lang = "zh";
+
+        }
+
+
+        currentLanguage = lang;
+
+
+        localStorage.setItem(
+          "language",
+          lang
+        );
+
+
+        applyLanguage();
+
+
+        renderTodayActivities(
+          allTodayActivities
+        );
+
+
+        if (members.length) {
+
+          render(
+            filterMembers()
+          );
+
+        }
+
+      }
+
+
+      /* =====================================================
+         应用语言
+      ===================================================== */
+
+      function applyLanguage() {
+
+
+        document
+          .querySelectorAll("[data-i18n]")
+          .forEach(function(el) {
+
+            const key =
+              el.getAttribute(
+                "data-i18n"
+              );
+
+
+            if (
+              I18N[currentLanguage] &&
+              I18N[currentLanguage][key] !== undefined
+            ) {
+
+              el.textContent =
+                I18N[currentLanguage][key];
+
+            }
+
+          });
+
+
+        document
+          .querySelectorAll(
+            "[data-i18n-placeholder]"
+          )
+          .forEach(function(el) {
+
+            const key =
+              el.getAttribute(
+                "data-i18n-placeholder"
+              );
+
+
+            if (
+              I18N[currentLanguage] &&
+              I18N[currentLanguage][key] !== undefined
+            ) {
+
+              el.placeholder =
+                I18N[currentLanguage][key];
+
+            }
+
+          });
+
+
+        document
+          .getElementById("langZh")
+          .classList.toggle(
+            "active",
+            currentLanguage === "zh"
+          );
+
+
+        document
+          .getElementById("langJa")
+          .classList.toggle(
+            "active",
+            currentLanguage === "ja"
+          );
+
+      }
+
+
+      /* =====================================================
+         页面初始化
+      ===================================================== */
+
+      window.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+          applyLanguage();
+
+          initializeCheckin();
+
+        }
+      );
+
+
+      /* =====================================================
+         初始化
+      ===================================================== */
+
+      function initializeCheckin() {
+
+
+        /*
+         * 优先读取 URL：
+         *
+         * ?page=checkin&activityID=ACT000001
+         */
+
+        google.script.url.getLocation(
+          function(location) {
+
+            let urlActivityID = "";
+
+
+            if (
+              location &&
+              location.parameter &&
+              location.parameter.activityID
+            ) {
+
+              urlActivityID =
+                String(
+                  location.parameter.activityID
+                ).trim();
+
+            }
+
+
+            loadTodayActivities(
+              urlActivityID
+            );
+
+          }
+        );
+
+      }
+
+
+      /* =====================================================
+         读取今日活动
+      ===================================================== */
+
+      function loadTodayActivities(
+        preferredActivityID
+      ) {
+
+
+        const box =
+          document.getElementById(
+            "todayActivityList"
+          );
+
+
+        box.innerHTML = `
+
+          <div class="empty">
+
+            ${escapeHtml(
+              t("loading")
+            )}
+
+          </div>
+
+        `;
+
+
+        google.script.run
+
+          .withSuccessHandler(
+            function(list) {
+
+
+              if (
+                !list ||
+                !Array.isArray(list)
+              ) {
+
+                list = [];
+
+              }
+
+
+              /*
+               * 今天日期
+               */
+
+              const today =
+                new Date();
+
+
+              const todayString =
+                today.getFullYear()
+                + "-"
+                + String(
+                    today.getMonth() + 1
+                  ).padStart(2, "0")
+                + "-"
+                + String(
+                    today.getDate()
+                  ).padStart(2, "0");
+
+
+              /*
+               * 只显示今天的活动
+               */
+
+              allTodayActivities =
+                list.filter(function(a) {
+
+                  const date =
+                    formatDate(
+                      a.ActivityDate ||
+                      a.Date
+                    );
+
+
+                  return date ===
+                    todayString;
+
+                });
+
+
+              renderTodayActivities(
+                allTodayActivities
+              );
+
+
+              /*
+               * URL 指定活动
+               */
+
+              if (
+                preferredActivityID
+              ) {
+
+                const exists =
+                  allTodayActivities.some(
+                    function(a) {
+
+                      return String(
+                        a.ActivityID
+                      ) ===
+                      String(
+                        preferredActivityID
+                      );
+
+                    }
+                  );
+
+
+                if (exists) {
+
+                  selectActivity(
+                    preferredActivityID
+                  );
+
+                  return;
+
+                }
+
+              }
+
+
+              /*
+               * 如果今天只有一个活动
+               * 自动选择
+               */
+
+              if (
+                allTodayActivities.length === 1
+              ) {
+
+                selectActivity(
+                  allTodayActivities[0]
+                    .ActivityID
+                );
+
+              }
+
+            }
+          )
+
+
+          .withFailureHandler(
+            function(error) {
+
+              box.innerHTML = `
+
+                <div class="error">
+
+                  ${escapeHtml(
+                    t("loadFailed")
+                  )}
+
+                  ${escapeHtml(
+                    error.message || error
+                  )}
+
+                </div>
+
+              `;
+
+            }
+          )
+
+
+          .getDashboardActivities();
+
+      }
+
+
+      /* =====================================================
+         显示今日活动
+      ===================================================== */
+
+      function renderTodayActivities(
+        list
+      ) {
+
+
+        const box =
+          document.getElementById(
+            "todayActivityList"
+          );
+
+
+        box.innerHTML = "";
+
+
+        if (
+          !list ||
+          !list.length
+        ) {
+
+          box.innerHTML = `
+
+            <div class="empty">
+
+              📅 ${escapeHtml(
+                t("noTodayActivity")
+              )}
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        list.forEach(function(a) {
+
+
+          const button =
+            document.createElement(
+              "button"
+            );
+
+
+          button.type =
+            "button";
+
+
+          button.className =
+            "activity-option";
+
+
+          if (
+            String(a.ActivityID) ===
+            String(currentActivityID)
+          ) {
+
+            button.classList.add(
+              "active"
+            );
+
+          }
+
+
+          const title =
+            a.Title ||
+            "🏸";
+
+
+          const date =
+            formatDate(
+              a.ActivityDate ||
+              a.Date
+            );
+
+
+          const start =
+            a.StartTime || "";
+
+
+          const end =
+            a.EndTime || "";
+
+
+          button.innerHTML = `
+
+            <div class="activity-option-title">
+
+              🏸 ${escapeHtml(title)}
+
+            </div>
+
+            <div class="activity-option-info">
+
+              📅 ${escapeHtml(date)}
+
+              ${start
+                ? "　⏰ " +
+                  escapeHtml(start)
+                : ""
+              }
+
+              ${end
+                ? " - " +
+                  escapeHtml(end)
+                : ""
+              }
+
+              <br>
+
+              🆔 ${escapeHtml(
+                a.ActivityID || ""
+              )}
+
+            </div>
+
+          `;
+
+
+          button.onclick =
+            function() {
+
+              selectActivity(
+                a.ActivityID
+              );
+
+            };
+
+
+          box.appendChild(
+            button
+          );
+
+        });
+
+      }
+
+
+      /* =====================================================
+         选择活动
+      ===================================================== */
+
+      function selectActivity(
+        activityID
+      ) {
+
+
+        currentActivityID =
+          String(
+            activityID || ""
+          ).trim();
+
+
+        document.getElementById(
+          "activityID"
+        ).value =
+          currentActivityID;
+
+
+        const activity =
+          allTodayActivities.find(
+            function(a) {
+
+              return String(
+                a.ActivityID
+              ) ===
+              currentActivityID;
+
+            }
+          );
+
+
+        if (activity) {
+
+          document.getElementById(
+            "displayCheckinID"
+          ).textContent =
+            activity.ActivityID;
+
+
+          document.getElementById(
+            "displayActivityTitle"
+          ).textContent =
+            "🏸 " +
+            (
+              activity.Title ||
+              ""
+            );
+
+
+          document.getElementById(
+            "displayDate"
+          ).textContent =
+            "📅 " +
+            formatDate(
+              activity.ActivityDate ||
+              activity.Date
+            );
+
+        } else {
+
+          document.getElementById(
+            "displayCheckinID"
+          ).textContent =
+            currentActivityID || "—";
+
+        }
+
+
+        renderTodayActivities(
+          allTodayActivities
+        );
+
+
+        loadList();
+
+      }
+
+
+      /* =====================================================
+         加载名单
+      ===================================================== */
+
+      function loadList() {
+
+
+        const id =
+          document
+            .getElementById(
+              "activityID"
+            )
+            .value
+            .trim();
+
+
+        if (!id) {
+
+          showMessage(
+            t("activityNotFound"),
+            true
+          );
+
+          return;
+
+        }
+
+
+        currentActivityID =
+          id;
+
+
+        document.getElementById(
+          "displayCheckinID"
+        ).textContent =
+          id;
+
+
+        document.getElementById(
+          "list"
+        ).innerHTML = `
+
+          <div class="empty">
+
+            ${escapeHtml(
+              t("loadingList")
+            )}
+
+          </div>
+
+        `;
+
+
+        google.script.run
+
+          .withSuccessHandler(
+            function(res) {
+
+
+              if (
+                !res ||
+                !res.success
+              ) {
+
+                members = [];
+
+                updateSummary();
+
+                document.getElementById(
+                  "list"
+                ).innerHTML = `
+
+                  <div class="error">
+
+                    ❌
+                    ${escapeHtml(
+                      res && res.message
+                        ? res.message
+                        : t("activityNotFound")
+                    )}
+
+                  </div>
+
+                `;
+
+                return;
+
+              }
+
+
+              members =
+                Array.isArray(res.data)
+                  ? res.data
+                  : [];
+
+
+              updateSummary();
+
+
+              render(
+                filterMembers()
+              );
+
+
+              /*
+               * 更新顶部活动信息
+               */
+
+              const activity =
+                allTodayActivities.find(
+                  function(a) {
+
+                    return String(
+                      a.ActivityID
+                    ) ===
+                    currentActivityID;
+
+                  }
+                );
+
+
+              if (activity) {
+
+                document.getElementById(
+                  "displayActivityTitle"
+                ).textContent =
+                  "🏸 " +
+                  (
+                    activity.Title ||
+                    ""
+                  );
+
+
+                document.getElementById(
+                  "displayDate"
+                ).textContent =
+                  "📅 " +
+                  formatDate(
+                    activity.ActivityDate ||
+                    activity.Date
+                  );
+
+              }
+
+            }
+          )
+
+
+          .withFailureHandler(
+            function(error) {
+
+              document.getElementById(
+                "list"
+              ).innerHTML = `
+
+                <div class="error">
+
+                  ❌
+                  ${escapeHtml(
+                    t("loadFailed")
+                  )}
+
+                  ${escapeHtml(
+                    error.message || error
+                  )}
+
+                </div>
+
+              `;
+
+            }
+          )
+
+
+          .getCheckinList(id);
+
+      }
+
+
+      /* =====================================================
+         搜索
+      ===================================================== */
+
+      function search() {
+
+        render(
+          filterMembers()
+        );
+
+      }
+
+
+      function filterMembers() {
+
+
+        const keyword =
+          document
+            .getElementById(
+              "keyword"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        if (!keyword) {
+
+          return members;
+
+        }
+
+
+        return members.filter(
+          function(m) {
+
+
+            const name =
+              String(
+                m.Name || ""
+              ).toLowerCase();
+
+
+            const contact =
+              String(
+                m.ContactValue || ""
+              ).toLowerCase();
+
+
+            return (
+              name.includes(keyword) ||
+              contact.includes(keyword)
+            );
+
+          }
+        );
+
+      }
+
+
+      /* =====================================================
+         显示名单
+      ===================================================== */
+
+      function render(data) {
+
+
+        const box =
+          document.getElementById(
+            "list"
+          );
+
+
+        box.innerHTML = "";
+
+
+        if (
+          !data ||
+          !data.length
+        ) {
+
+          box.innerHTML = `
+
+            <div class="empty">
+
+              👤 ${escapeHtml(
+                t("noMembers")
+              )}
+
+            </div>
+
+          `;
+
+          return;
+
+        }
+
+
+        data.forEach(function(m) {
+
+
+          const div =
+            document.createElement(
+              "div"
+            );
+
+
+          div.className =
+            "member-card " +
+            (
+              m.CheckedIn
+                ? "checked"
+                : ""
+            );
+
+
+          const checked =
+            Boolean(
+              m.CheckedIn
+            );
+
+
+          let html = `
+
+            <div class="member-name">
+
+              ${escapeHtml(
+                m.Name || ""
+              )}
+
+            </div>
+
+
+            <div class="member-info">
+
+              ${escapeHtml(
+                t("level")
+              )}
+
+             ：
+
+              ${escapeHtml(
+                m.Level || "-"
+              )}
+
+            </div>
+
+
+            <div class="member-status ${
+              checked
+                ? "status-checked"
+                : "status-not"
+            }">
+
+              ${
+                checked
+                  ? escapeHtml(
+                      t("checkedStatus")
+                    )
+                  : escapeHtml(
+                      t("notChecked")
+                    )
+              }
+
+            </div>
+
+          `;
+
+
+          if (checked) {
+
+
+            html += `
+
+              <div class="member-info">
+
+                ${escapeHtml(
+                  t("payment")
+                )}
+
+               ：
+
+                ${escapeHtml(
+                  paymentText(
+                    m.PaymentMethod
+                  )
+                )}
+
+              </div>
+
+            `;
+
+
+          } else {
+
+
+            html += `
+
+              <select
+                id="pay_${escapeHtml(
+                  m.RegistrationID
+                )}"
+                class="payment-select">
+
+                <option value="CASH">
+
+                  ${escapeHtml(
+                    t("cash")
+                  )}
+
+                </option>
+
+                <option value="PAYPAY">
+
+                  ${escapeHtml(
+                    t("paypay")
+                  )}
+
+                </option>
+
+                <option value="UNPAID">
+
+                  ${escapeHtml(
+                    t("unpaid")
+                  )}
+
+                </option>
+
+                <option value="FREE">
+
+                  ${escapeHtml(
+                    t("free")
+                  )}
+
+                </option>
+
+              </select>
+
+
+              <button
+                type="button"
+                class="checkin-button"
+                onclick="checkin('${escapeJs(
+                  m.RegistrationID
+                )}')">
+
+                ${escapeHtml(
+                  t("checkin")
+                )}
+
+              </button>
+
+            `;
+
+          }
+
+
+          div.innerHTML =
+            html;
+
+
+          box.appendChild(
+            div
+          );
+
+        });
+
+      }
+
+
+      /* =====================================================
+         付款文字
+      ===================================================== */
+
+      function paymentText(
+        payment
+      ) {
+
+
+        const value =
+          String(
+            payment || ""
+          ).toUpperCase();
+
+
+        if (
+          value === "CASH"
+        ) {
+
+          return t("cash");
+
+        }
+
+
+        if (
+          value === "PAYPAY"
+        ) {
+
+          return t("paypay");
+
+        }
+
+
+        if (
+          value === "FREE"
+        ) {
+
+          return t("free");
+
+        }
+
+
+        if (
+          value === "UNPAID"
+        ) {
+
+          return t("unpaid");
+
+        }
+
+
+        return payment || "-";
+
+      }
+
+
+      /* =====================================================
+         签到
+      ===================================================== */
+
+      function checkin(
+        registrationID
+      ) {
+
+
+        const select =
+          document.getElementById(
+            "pay_" +
+            registrationID
+          );
+
+
+        const payment =
+          select
+            ? select.value
+            : "UNPAID";
+
+
+        google.script.run
+
+          .withSuccessHandler(
+            function(res) {
+
+
+              if (
+                res &&
+                res.success === false
+              ) {
+
+                showMessage(
+                  res.message ||
+                  t("checkinFailed"),
+                  true
+                );
+
+                return;
+
+              }
+
+
+              showMessage(
+                "✅ " +
+                (
+                  res &&
+                  res.message
+                    ? res.message
+                    : t("checkinSuccess")
+                ),
+                false
+              );
+
+
+              /*
+               * 重新读取名单
+               */
+
+              loadList();
+
+            }
+          )
+
+
+          .withFailureHandler(
+            function(error) {
+
+              showMessage(
+                t("checkinFailed") +
+                " " +
+                (
+                  error.message ||
+                  error
+                ),
+                true
+              );
+
+            }
+          )
+
+
+          .checkinRegistration(
+            registrationID,
+            payment
+          );
+
+      }
+
+
+      /* =====================================================
+         统计
+      ===================================================== */
+
+      function updateSummary() {
+
+
+        const checked =
+          members.filter(
+            function(m) {
+
+              return Boolean(
+                m.CheckedIn
+              );
+
+            }
+          ).length;
+
+
+        document.getElementById(
+          "checkedCount"
+        ).textContent =
+          checked;
+
+
+        document.getElementById(
+          "totalCount"
+        ).textContent =
+          members.length;
+
+      }
+
+
+      /* =====================================================
+         消息
+      ===================================================== */
+
+      function showMessage(
+        message,
+        isError
+      ) {
+
+
+        const box =
+          document.getElementById(
+            "messageArea"
+          );
+
+
+        box.innerHTML = `
+
+          <div class="${
+            isError
+              ? "error"
+              : "success-message"
+          }">
+
+            ${escapeHtml(
+              message
+            )}
+
+          </div>
+
+        `;
+
+
+        setTimeout(
+          function() {
+
+            box.innerHTML = "";
+
+          },
+          3500
+        );
+
+      }
+
+
+      /* =====================================================
+         日期
+      ===================================================== */
+
+      function formatDate(
+        value
+      ) {
+
+
+        if (!value) {
+
+          return "";
+
+        }
+
+
+        const date =
+          new Date(value);
+
+
+        if (
+          isNaN(
+            date.getTime()
+          )
+        ) {
+
+          return String(value)
+            .substring(0, 10);
+
+        }
+
+
+        return (
+          date.getFullYear()
+          + "-"
+          + String(
+              date.getMonth() + 1
+            ).padStart(2, "0")
+          + "-"
+          + String(
+              date.getDate()
+            ).padStart(2, "0")
+        );
+
+      }
+
+
+      /* =====================================================
+         HTML 安全
+      ===================================================== */
+
+      function escapeHtml(
+        value
+      ) {
+
+
+        if (
+          value === null ||
+          value === undefined
+        ) {
+
+          return "";
+
+        }
+
+
+        return String(value)
+
+          .replace(
+            /&/g,
+            "&amp;"
+          )
+
+          .replace(
+            /</g,
+            "&lt;"
+          )
+
+          .replace(
+            />/g,
+            "&gt;"
+          )
+
+          .replace(
+            /"/g,
+            "&quot;"
+          )
+
+          .replace(
+            /'/g,
+            "&#039;"
+          );
+
+      }
+
+
+      /* =====================================================
+         JS 字符串安全
+      ===================================================== */
+
+      function escapeJs(
+        value
+      ) {
+
+
+        return String(
+          value || ""
+        )
+
+          .replace(
+            /\\/g,
+            "\\\\"
+          )
+
+          .replace(
+            /'/g,
+            "\\'"
+          )
+
+          .replace(
+            /\r/g,
+            "\\r"
+          )
+
+          .replace(
+            /\n/g,
+            "\\n"
+          );
+
+      }
+    </script>
+  </body>
+</html>
