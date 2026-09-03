@@ -306,106 +306,19 @@ function testGetCheckins() {
  *
  ****************************************************/
 
-function checkInCore(registrationID) {
-  const registrations = sheetToJson(CONFIG.SHEETS.REGISTRATIONS);
-
-  const registration = registrations.find(
-    (r) => r.RegistrationID === registrationID,
-  );
-
-  if (!registration) {
-    return {
-      success: false,
-
-      message: "报名记录不存在",
-    };
-  }
-
-  // 已取消
-
-  if (registration.Status !== CONFIG.STATUS.CONFIRMED) {
-    return {
-      success: false,
-
-      message: "当前状态不能签到",
-    };
-  }
-
-  // 已签到
-
-  if (registration.CheckinStatus === CONFIG.STATUS.CHECKED_IN) {
-    return {
-      success: false,
-
-      message: "已经签到",
-    };
-  }
-
-  // 写入 Checkins
-
-  appendRow(
-    CONFIG.SHEETS.CHECKINS,
-
-    [
-      generateID("CHK"),
-
-      registration.RegistrationID,
-
-      registration.ActivityID,
-
-      registration.Name,
-
-      new Date(),
-
-      "ADMIN",
-    ],
-  );
-
-  // 更新报名状态
-
-  const sheet = getSheet(CONFIG.SHEETS.REGISTRATIONS);
-
-  const data = sheet.getDataRange().getValues();
-
-  const headers = data[0];
-
-  const idIndex = headers.indexOf("RegistrationID");
-
-  const checkinIndex = headers.indexOf("CheckinStatus");
-
-  const updatedIndex = headers.indexOf("UpdatedAt");
-
-  for (let i = 1; i < data.length; i++) {
-    if (data[i][idIndex] === registrationID) {
-      sheet
-        .getRange(i + 1, checkinIndex + 1)
-        .setValue(CONFIG.STATUS.CHECKED_IN);
-
-      sheet.getRange(i + 1, updatedIndex + 1).setValue(new Date());
-
-      break;
-    }
-  }
-
-  return {
-    success: true,
-
-    message: "签到成功",
-
-    RegistrationID: registrationID,
-  };
-}
-
-function testCheckIn() {
-  const result = checkIn("REG260806113712347");
-
-  Logger.log(JSON.stringify(result, null, 2));
-}
-
 function testListRegistrations() {
   const data = sheetToJson(CONFIG.SHEETS.REGISTRATIONS);
 
   Logger.log(JSON.stringify(data, null, 2));
+}
+
+function testCheckinsSheet() {
+  const sheet = getSheet(CONFIG.SHEETS.CHECKINS);
+  const headers = sheet
+    .getRange(1, 1, 1, sheet.getLastColumn())
+    .getValues()[0];
+
+  Logger.log(JSON.stringify(headers));
 }
 
 function testCheckinPayment() {
