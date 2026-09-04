@@ -5,7 +5,7 @@
 
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
     />
 
     <meta name="theme-color" content="#1677ff" />
@@ -13,29 +13,39 @@
     <title>活动报名 / イベント申込</title>
 
     <style>
-      * {
+      /* =====================================================
+       全局
+    ===================================================== */
+
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
         -webkit-tap-highlight-color: transparent;
       }
 
-      html {
+      html,
+      body {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        margin: 0;
+        padding: 0;
+
+        overflow-x: hidden;
+      }
+
+      html {
         min-height: 100%;
-        background: #f3f6fb;
+
+        background: linear-gradient(180deg, #eef7ff 0%, #f7f9fc 100%);
       }
 
       body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        min-height: 100vh;
+        min-height: 100dvh;
 
-        background: linear-gradient(
-          180deg,
-          #edf5ff 0%,
-          #f7f9fc 280px,
-          #f5f7fa 100%
-        );
+        background: linear-gradient(180deg, #eef7ff 0%, #f7f9fc 100%);
 
         color: #1f2937;
 
@@ -43,8 +53,14 @@
           -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei",
           "Hiragino Sans GB", "Yu Gothic", Meiryo, Arial, sans-serif;
 
-        font-size: 30px;
+        font-size: 22px;
+        line-height: 1.55;
+
         -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: 100%;
+
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
       }
 
       button,
@@ -58,78 +74,91 @@
         touch-action: manipulation;
       }
 
-      /* =========================
+      /* =====================================================
        顶部工具栏
-       ========================= */
+    ===================================================== */
 
       .top-tools {
         position: fixed;
-        top: max(14px, env(safe-area-inset-top));
-        right: 18px;
+
+        top: max(8px, env(safe-area-inset-top));
+        right: 8px;
+
         z-index: 1000;
 
         display: flex;
         align-items: center;
-        gap: 8px;
+
+        gap: 6px;
       }
 
       .tool-btn {
         border: 1px solid #dbe5f0;
-        background: rgba(255, 255, 255, 0.95);
+
+        background: rgba(255, 255, 255, 0.96);
         color: #334155;
 
-        padding: 10px 14px;
-        border-radius: 12px;
+        padding: 8px 11px;
 
-        font-size: 17px;
+        border-radius: 10px;
+
+        font-size: 15px;
         font-weight: 700;
 
         cursor: pointer;
 
-        box-shadow: 0 5px 18px rgba(15, 23, 42, 0.1);
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
 
         backdrop-filter: blur(8px);
       }
 
       .tool-btn:hover {
         background: #f5f9ff;
+
         border-color: #91caff;
+
         color: #1677ff;
       }
 
       .language-btn {
         color: #1677ff;
+
         border-color: #b6d7ff;
       }
 
-      /* =========================
+      /* =====================================================
        页面主体
-       ========================= */
+    ===================================================== */
 
       .container {
         width: 100%;
-        max-width: 1000px;
-        margin: 0 auto;
+        max-width: none;
 
-        padding: max(80px, calc(env(safe-area-inset-top) + 65px)) 24px
-          max(50px, env(safe-area-inset-bottom));
+        margin: 0;
+
+        padding: max(65px, calc(env(safe-area-inset-top) + 55px)) 8px
+          max(24px, env(safe-area-inset-bottom));
       }
 
-      /* =========================
+      /* =====================================================
        顶部标题
-       ========================= */
+    ===================================================== */
 
       .page-header {
+        width: 100%;
+
         text-align: center;
-        padding: 24px 10px 28px;
+
+        padding: 14px 4px 20px;
       }
 
       .page-icon {
-        width: 90px;
-        height: 90px;
-        margin: 0 auto 16px;
+        width: 72px;
+        height: 72px;
 
-        border-radius: 26px;
+        margin: 0 auto 12px;
+
+        border-radius: 21px;
 
         display: flex;
         align-items: center;
@@ -138,123 +167,149 @@
         background: linear-gradient(135deg, #1677ff, #4096ff);
 
         color: white;
-        font-size: 48px;
 
-        box-shadow: 0 12px 30px rgba(22, 119, 255, 0.25);
+        font-size: 38px;
+
+        box-shadow: 0 8px 22px rgba(22, 119, 255, 0.22);
       }
 
       .page-title {
         margin: 0;
 
-        font-size: 42px;
-        line-height: 1.3;
+        font-size: 38px;
 
-        font-weight: 800;
+        line-height: 1.25;
+
+        font-weight: 900;
+
         color: #111827;
 
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
       }
 
       .page-subtitle {
-        margin-top: 10px;
+        margin-top: 7px;
 
-        font-size: 22px;
+        font-size: 20px;
+
+        line-height: 1.4;
+
         color: #6b7280;
       }
 
-      /* =========================
+      /* =====================================================
        消息
-       ========================= */
+    ===================================================== */
 
       .message {
         display: none;
 
-        padding: 20px 22px;
-        margin-bottom: 22px;
+        width: 100%;
 
-        border-radius: 16px;
+        padding: 15px 14px;
 
-        font-size: 24px;
-        line-height: 1.6;
-        font-weight: 600;
+        margin-bottom: 14px;
+
+        border-radius: 12px;
+
+        font-size: 22px;
+
+        line-height: 1.5;
+
+        font-weight: 700;
       }
 
       .message.success {
         display: block;
+
         background: #f0fff4;
         color: #237804;
+
         border: 2px solid #b7eb8f;
       }
 
       .message.error {
         display: block;
+
         background: #fff2f0;
         color: #cf1322;
+
         border: 2px solid #ffccc7;
       }
 
       .message.warning {
         display: block;
+
         background: #fffbe6;
         color: #ad6800;
+
         border: 2px solid #ffe58f;
       }
 
-      /* =========================
+      /* =====================================================
        Card
-       ========================= */
+    ===================================================== */
 
       .card {
-        background: rgba(255, 255, 255, 0.96);
+        width: 100%;
 
-        border-radius: 24px;
-        padding: 28px;
-        margin-bottom: 22px;
+        background: rgba(255, 255, 255, 0.97);
 
-        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 14px;
 
-        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+        padding: 18px 10px;
+
+        margin-bottom: 12px;
+
+        border: 1px solid #e2e8f0;
+
+        box-shadow: 0 3px 14px rgba(15, 23, 42, 0.06);
       }
 
       .card-title {
         display: flex;
         align-items: center;
 
-        gap: 12px;
+        gap: 10px;
 
-        font-size: 30px;
-        font-weight: 800;
+        font-size: 28px;
 
-        margin-bottom: 26px;
+        line-height: 1.3;
+
+        font-weight: 900;
+
+        margin-bottom: 18px;
 
         color: #111827;
       }
 
       .section-number {
-        width: 46px;
-        height: 46px;
+        width: 40px;
+        height: 40px;
 
-        flex: 0 0 46px;
+        flex: 0 0 40px;
 
         display: flex;
         align-items: center;
         justify-content: center;
 
-        border-radius: 14px;
+        border-radius: 11px;
 
         background: #eaf3ff;
+
         color: #1677ff;
 
-        font-size: 23px;
-        font-weight: 800;
+        font-size: 21px;
+
+        font-weight: 900;
       }
 
-      /* =========================
+      /* =====================================================
        表单
-       ========================= */
+    ===================================================== */
 
       .form-group {
-        margin-bottom: 22px;
+        margin-bottom: 17px;
       }
 
       .form-group:last-child {
@@ -264,12 +319,13 @@
       .form-group label {
         display: block;
 
-        margin-bottom: 10px;
+        margin-bottom: 7px;
 
         font-size: 24px;
+
         line-height: 1.4;
 
-        font-weight: 700;
+        font-weight: 800;
 
         color: #374151;
       }
@@ -277,85 +333,90 @@
       input,
       select,
       textarea {
+        display: block;
+
         width: 100%;
 
-        border: 2px solid #dbe2ea;
-        border-radius: 14px;
+        border: 2px solid #d5dbe3;
 
-        padding: 17px 18px;
+        border-radius: 11px;
 
-        font-size: 25px;
+        padding: 12px 14px;
+
+        font-size: 24px;
+
         line-height: 1.4;
 
         color: #111827;
+
         background: #fff;
 
         outline: none;
+
+        appearance: auto;
 
         transition:
           border-color 0.2s,
           box-shadow 0.2s,
           background 0.2s;
-
-        appearance: auto;
       }
 
-      input {
-        min-height: 62px;
-      }
-
+      input,
       select {
-        min-height: 62px;
+        min-height: 66px;
       }
 
       textarea {
-        min-height: 150px;
+        min-height: 125px;
+
         resize: vertical;
       }
 
       input::placeholder,
       textarea::placeholder {
-        color: #a0a8b3;
+        color: #9ca3af;
       }
 
       input:focus,
       select:focus,
       textarea:focus {
         border-color: #1677ff;
+
         background: #fff;
 
         box-shadow: 0 0 0 4px rgba(22, 119, 255, 0.1);
       }
 
-      /* =========================
+      /* =====================================================
        报名人提示
-       ========================= */
+    ===================================================== */
 
       .booker-tip {
-        margin-top: 12px;
+        margin-top: 9px;
 
-        padding: 14px 16px;
+        padding: 11px 12px;
 
-        border-radius: 12px;
+        border-radius: 10px;
 
         background: #f5f9ff;
 
         color: #52719b;
 
-        font-size: 20px;
+        font-size: 19px;
+
         line-height: 1.5;
       }
 
-      /* =========================
+      /* =====================================================
        Level 说明
-       ========================= */
+    ===================================================== */
 
       .level-description {
-        margin-top: 10px;
+        margin-top: 8px;
 
-        padding: 12px 14px;
+        padding: 10px 12px;
 
-        border-radius: 12px;
+        border-radius: 10px;
 
         background: #f5f9ff;
 
@@ -363,9 +424,9 @@
 
         color: #52719b;
 
-        font-size: 19px;
+        font-size: 18px;
 
-        line-height: 1.6;
+        line-height: 1.5;
 
         min-height: 0;
 
@@ -378,25 +439,25 @@
         display: none;
       }
 
-      /* =========================
+      /* =====================================================
        活动列表
-       ========================= */
-
+    ===================================================== */
       .activity-list {
         display: grid;
-
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-        gap: 16px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
       }
 
       .activity-item {
         position: relative;
 
-        border: 2px solid #e1e6ed;
-        border-radius: 18px;
+        width: 100%;
 
-        padding: 20px;
+        border: 2px solid #e1e6ed;
+
+        border-radius: 12px;
+
+        padding: 13px;
 
         cursor: pointer;
 
@@ -414,21 +475,22 @@
 
         background: #f2f8ff;
 
-        box-shadow: 0 6px 18px rgba(22, 119, 255, 0.1);
+        box-shadow: 0 4px 12px rgba(22, 119, 255, 0.09);
       }
 
       .activity-top {
         display: flex;
+
         align-items: flex-start;
 
-        gap: 14px;
+        gap: 10px;
       }
 
       .activity-checkbox {
-        width: 30px;
-        height: 30px;
+        width: 27px;
+        height: 27px;
 
-        min-width: 30px;
+        min-width: 27px;
 
         margin-top: 2px;
 
@@ -436,60 +498,65 @@
       }
 
       .activity-title {
-        font-size: 26px;
-        line-height: 1.4;
+        font-size: 25px;
 
-        font-weight: 800;
+        line-height: 1.35;
+
+        font-weight: 900;
 
         color: #111827;
       }
 
       .activity-info {
-        margin-top: 16px;
+        margin-top: 9px;
 
-        padding-left: 44px;
+        padding-left: 37px;
 
-        font-size: 21px;
-        line-height: 1.8;
+        font-size: 20px;
+
+        line-height: 1.55;
 
         color: #667085;
       }
 
       .activity-info-row {
-        margin-bottom: 3px;
+        margin-bottom: 2px;
       }
 
       .selected-summary {
-        margin-top: 18px;
+        margin-top: 12px;
 
-        padding: 18px;
+        padding: 13px;
 
-        border-radius: 14px;
+        border-radius: 11px;
 
         background: #f5f7fa;
 
         color: #475467;
 
-        font-size: 21px;
-        line-height: 1.6;
+        font-size: 20px;
+
+        line-height: 1.5;
       }
 
-      /* =========================
+      /* =====================================================
        参加人员
-       ========================= */
+    ===================================================== */
 
       .participant {
+        width: 100%;
+
         border: 2px solid #e4e8ee;
 
-        border-radius: 20px;
+        border-radius: 13px;
 
-        padding: 22px;
+        padding: 14px;
 
-        margin-bottom: 18px;
+        margin-bottom: 12px;
 
         background: linear-gradient(180deg, #ffffff, #fafcff);
 
-        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+        box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
       }
 
       .participant.first {
@@ -504,54 +571,59 @@
         align-items: center;
         justify-content: space-between;
 
-        gap: 15px;
+        gap: 10px;
 
-        margin-bottom: 20px;
+        margin-bottom: 14px;
       }
 
       .participant-title-wrap {
         display: flex;
+
         align-items: center;
 
-        gap: 12px;
+        gap: 9px;
       }
 
       .participant-badge {
-        width: 42px;
-        height: 42px;
+        width: 36px;
+        height: 36px;
 
         display: flex;
         align-items: center;
         justify-content: center;
 
-        border-radius: 13px;
+        border-radius: 10px;
 
         background: #1677ff;
+
         color: white;
 
-        font-size: 21px;
-        font-weight: 800;
+        font-size: 19px;
+
+        font-weight: 900;
       }
 
       .participant-title {
-        font-size: 27px;
-        font-weight: 800;
+        font-size: 25px;
+
+        font-weight: 900;
 
         color: #111827;
       }
 
       .participant-main {
-        padding: 14px;
+        padding: 11px;
 
-        margin-bottom: 18px;
+        margin-bottom: 13px;
 
-        border-radius: 14px;
+        border-radius: 10px;
 
         background: #f5f9ff;
 
         color: #52719b;
 
-        font-size: 19px;
+        font-size: 18px;
+
         line-height: 1.5;
       }
 
@@ -560,31 +632,33 @@
 
         grid-template-columns: repeat(2, minmax(0, 1fr));
 
-        gap: 18px;
+        gap: 12px;
       }
 
       .full-width {
         grid-column: 1 / -1;
       }
 
-      /* =========================
+      /* =====================================================
        删除按钮
-       ========================= */
+    ===================================================== */
 
       .remove-btn {
         border: none;
 
         background: #fff1f0;
+
         color: #cf1322;
 
-        padding: 11px 17px;
+        padding: 9px 12px;
 
-        border-radius: 12px;
+        border-radius: 10px;
 
         cursor: pointer;
 
-        font-size: 20px;
-        font-weight: 700;
+        font-size: 18px;
+
+        font-weight: 800;
 
         white-space: nowrap;
       }
@@ -593,9 +667,9 @@
         background: #ffccc7;
       }
 
-      /* =========================
+      /* =====================================================
        添加按钮
-       ========================= */
+    ===================================================== */
 
       .add-btn {
         width: 100%;
@@ -603,14 +677,16 @@
         border: 2px dashed #91caff;
 
         background: #f5f9ff;
+
         color: #1677ff;
 
-        padding: 18px;
+        padding: 14px;
 
-        border-radius: 16px;
+        border-radius: 12px;
 
-        font-size: 25px;
-        font-weight: 700;
+        font-size: 23px;
+
+        font-weight: 800;
 
         cursor: pointer;
 
@@ -625,31 +701,34 @@
         transform: scale(0.99);
       }
 
-      /* =========================
+      /* =====================================================
        提交按钮
-       ========================= */
+    ===================================================== */
 
       .submit-btn {
         width: 100%;
 
         border: none;
 
-        border-radius: 18px;
+        border-radius: 14px;
 
         background: linear-gradient(135deg, #1677ff, #4096ff);
 
         color: #fff;
 
-        padding: 20px;
+        padding: 16px;
 
-        min-height: 72px;
+        min-height: 70px;
 
-        font-size: 29px;
-        font-weight: 800;
+        font-size: 27px;
+
+        line-height: 1.35;
+
+        font-weight: 900;
 
         cursor: pointer;
 
-        box-shadow: 0 10px 24px rgba(22, 119, 255, 0.24);
+        box-shadow: 0 7px 18px rgba(22, 119, 255, 0.2);
 
         transition: 0.2s;
       }
@@ -677,32 +756,33 @@
 
         color: #667085;
 
-        padding-top: 18px;
+        padding-top: 14px;
 
-        font-size: 21px;
+        font-size: 20px;
       }
 
-      /* =========================
+      /* =====================================================
        结果
-       ========================= */
+    ===================================================== */
 
       .result-box {
-        margin-top: 8px;
+        margin-top: 6px;
 
-        padding: 8px;
+        padding: 6px;
 
-        border-radius: 14px;
+        border-radius: 11px;
 
         background: #f7f8fa;
 
-        font-size: 21px;
-        line-height: 1.6;
+        font-size: 20px;
+
+        line-height: 1.5;
       }
 
       .result-item {
         border-bottom: 1px solid #e5e7eb;
 
-        padding: 15px 8px;
+        padding: 12px 7px;
       }
 
       .result-item:last-child {
@@ -711,82 +791,79 @@
 
       .status-confirmed {
         color: #389e0d;
-        font-weight: 800;
+
+        font-weight: 900;
       }
 
       .status-waitlist {
         color: #d48806;
-        font-weight: 800;
+
+        font-weight: 900;
       }
 
       .status-failed {
         color: #cf1322;
-        font-weight: 800;
+
+        font-weight: 900;
       }
 
-      /* =========================
+      /* =====================================================
        空状态
-       ========================= */
+    ===================================================== */
 
       .empty {
+        width: 100%;
+
         color: #98a2b3;
 
         text-align: center;
 
-        padding: 30px 15px;
+        padding: 28px 10px;
 
         font-size: 22px;
+
+        line-height: 1.5;
       }
 
-      /* =========================
+      /* =====================================================
        手机端
-       ========================= */
+    ===================================================== */
 
       @media (max-width: 600px) {
         html,
         body {
           width: 100%;
-          min-width: 100%;
-        }
+          max-width: 100%;
 
-        body {
-          font-size: 30px;
-        }
+          margin: 0;
 
-        .top-tools {
-          top: max(8px, env(safe-area-inset-top));
-          right: 8px;
+          padding-left: 0;
+          padding-right: 0;
 
-          gap: 5px;
-        }
-
-        .tool-btn {
-          padding: 8px 10px;
-          font-size: 14px;
-          border-radius: 10px;
+          overflow-x: hidden;
         }
 
         .container {
           width: 100%;
           max-width: none;
 
-          padding: max(65px, calc(env(safe-area-inset-top) + 55px)) 12px
-            max(40px, env(safe-area-inset-bottom));
+          margin: 0;
+
+          padding: max(62px, calc(env(safe-area-inset-top) + 52px)) 8px
+            max(22px, env(safe-area-inset-bottom));
         }
 
         .page-header {
-          padding: 18px 5px 22px;
+          padding: 12px 3px 18px;
         }
 
         .page-icon {
-          width: 72px;
-          height: 72px;
+          width: 68px;
+          height: 68px;
 
-          border-radius: 22px;
+          font-size: 35px;
 
-          font-size: 38px;
-
-          margin-bottom: 12px;
+          border-radius: 20px;
         }
 
         .page-title {
@@ -798,28 +875,151 @@
         }
 
         .card {
-          padding: 21px 17px;
+          padding: 17px 9px;
 
-          border-radius: 20px;
+          border-radius: 13px;
 
-          margin-bottom: 16px;
+          margin-bottom: 10px;
         }
 
         .card-title {
           font-size: 27px;
 
-          margin-bottom: 21px;
+          margin-bottom: 16px;
         }
 
         .section-number {
-          width: 42px;
-          height: 42px;
+          width: 39px;
+          height: 39px;
 
-          flex-basis: 42px;
+          flex-basis: 39px;
 
-          border-radius: 12px;
+          font-size: 20px;
+        }
 
-          font-size: 21px;
+        .form-group {
+          margin-bottom: 15px;
+        }
+
+        .form-group label {
+          font-size: 23px;
+        }
+
+        input,
+        select,
+        textarea {
+          font-size: 23px;
+
+          padding: 12px 13px;
+
+          border-radius: 10px;
+        }
+
+        input,
+        select {
+          min-height: 64px;
+        }
+
+        textarea {
+          min-height: 120px;
+        }
+
+        .booker-tip {
+          font-size: 18px;
+        }
+
+        .level-description {
+          font-size: 18px;
+        }
+
+        .activity-item {
+          padding: 10px;
+        }
+
+        .activity-title {
+          font-size: 24px;
+        }
+
+        .activity-info {
+          font-size: 19px;
+
+          padding-left: 37px;
+        }
+
+        .selected-summary {
+          font-size: 19px;
+        }
+
+        .participant {
+          padding: 13px;
+
+          margin-bottom: 10px;
+        }
+
+        .participant-title {
+          font-size: 24px;
+        }
+
+        .participant-grid {
+          grid-template-columns: 1fr;
+
+          gap: 10px;
+        }
+
+        .full-width {
+          grid-column: auto;
+        }
+
+        .remove-btn {
+          font-size: 17px;
+
+          padding: 8px 11px;
+        }
+
+        .add-btn {
+          font-size: 22px;
+
+          padding: 13px;
+        }
+
+        .submit-btn {
+          min-height: 68px;
+
+          padding: 15px;
+
+          font-size: 26px;
+        }
+
+        .result-box {
+          font-size: 19px;
+        }
+      }
+
+      /* =====================================================
+       小手机
+    ===================================================== */
+
+      @media (max-width: 380px) {
+        .container {
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+
+        .page-title {
+          font-size: 33px;
+        }
+
+        .page-subtitle {
+          font-size: 18px;
+        }
+
+        .card {
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+
+        .card-title {
+          font-size: 25px;
         }
 
         .form-group label {
@@ -829,108 +1029,7 @@
         input,
         select,
         textarea {
-          font-size: 23px;
-
-          padding: 16px;
-
-          border-radius: 13px;
-        }
-
-        input,
-        select {
-          min-height: 60px;
-        }
-
-        textarea {
-          min-height: 130px;
-        }
-
-        .level-description {
-          font-size: 18px;
-
-          padding: 11px 13px;
-
-          line-height: 1.55;
-        }
-
-        .activity-list {
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-
-        .activity-item {
-          padding: 18px;
-        }
-
-        .activity-title {
-          font-size: 24px;
-        }
-
-        .activity-info {
-          font-size: 20px;
-          padding-left: 44px;
-        }
-
-        .selected-summary {
-          font-size: 20px;
-        }
-
-        .participant {
-          padding: 17px;
-          border-radius: 18px;
-        }
-
-        .participant-title {
-          font-size: 24px;
-        }
-
-        .participant-badge {
-          width: 38px;
-          height: 38px;
-
-          font-size: 19px;
-        }
-
-        .participant-grid {
-          grid-template-columns: 1fr;
-          gap: 12px;
-        }
-
-        .full-width {
-          grid-column: auto;
-        }
-
-        .remove-btn {
-          font-size: 18px;
-          padding: 10px 13px;
-        }
-
-        .add-btn {
-          font-size: 23px;
-          padding: 17px;
-        }
-
-        .submit-btn {
-          font-size: 27px;
-          min-height: 68px;
-        }
-
-        .result-box {
-          font-size: 20px;
-        }
-      }
-
-      @media (max-width: 380px) {
-        .page-title {
-          font-size: 32px;
-        }
-
-        .card {
-          padding: 17px 13px;
-        }
-
-        .participant-header {
-          align-items: flex-start;
+          font-size: 22px;
         }
 
         .participant-title {
@@ -938,7 +1037,11 @@
         }
 
         .remove-btn {
-          font-size: 17px;
+          font-size: 16px;
+        }
+
+        .submit-btn {
+          font-size: 24px;
         }
       }
     </style>
