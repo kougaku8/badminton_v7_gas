@@ -1159,1037 +1159,382 @@
 
     <script>
 
-      /* =====================================================
-         ActivityID
-      ===================================================== */
+            /* =====================================================
+               ActivityID
+            ===================================================== */
 
-      const activityID =
-        <?!= JSON.stringify(activityID || "") ?>;
+            const activityID =
+              <?!= JSON.stringify(activityID || "") ?>;
 
 
-      /* =====================================================
-         多语言
-      ===================================================== */
+            /* =====================================================
+               多语言
+            ===================================================== */
 
-      const I18N = {
+            const I18N = {
 
-        zh: {
+              zh: {
 
-          title: "活动详情",
-          subtitle: "羽球活动",
-          back: "← 返回",
+                title: "活动详情",
+                subtitle: "羽球活动",
+                back: "← 返回",
 
-          loading: "正在加载活动……",
-          reading: "正在读取活动资料……",
+                loading: "正在加载活动……",
+                reading: "正在读取活动资料……",
 
-          date: "日期",
-          time: "时间",
-          venue: "场地",
-          fee: "费用",
+                date: "日期",
+                time: "时间",
+                venue: "场地",
+                fee: "费用",
 
-          joined: "已报名",
-          remaining: "剩余名额",
+                joined: "已报名",
+                remaining: "剩余名额",
 
-          venueInfo: "📍 场地信息",
-          description: "📋 活动说明",
-          participants: "👥 已报名人员",
+                venueInfo: "📍 场地信息",
+                description: "📋 活动说明",
+                participants: "👥 已报名人员",
 
-          noParticipants: "暂时没有报名人员",
+                noParticipants: "暂时没有报名人员",
 
-          register: "📝 我要报名",
+                register: "📝 我要报名",
 
-          activityError: "活动加载失败",
+                activityError: "活动加载失败",
 
-          noActivityID:
-            "没有找到 ActivityID",
+                noActivityID:
+                  "没有找到 ActivityID",
 
-          returnHome:
-            "请从活动列表重新进入。",
+                returnHome:
+                  "请从活动列表重新进入。",
 
-          serverError:
-            "服务器没有返回活动资料",
+                serverError:
+                  "服务器没有返回活动资料",
 
-          noActivity:
-            "返回资料中没有 Activity",
+                noActivity:
+                  "返回资料中没有 Activity",
 
-          readFailed:
-            "读取活动失败：",
+                readFailed:
+                  "读取活动失败：",
 
-          activityID:
-            "ActivityID："
+                activityID:
+                  "ActivityID："
 
-        },
+              },
 
 
-        ja: {
+              ja: {
 
-          title: "イベント詳細",
+                title: "イベント詳細",
 
-          subtitle:
-            "バドミントンイベント",
+                subtitle:
+                  "バドミントンイベント",
 
-          back:
-            "← 戻る",
+                back:
+                  "← 戻る",
 
-          loading:
-            "イベントを読み込んでいます……",
+                loading:
+                  "イベントを読み込んでいます……",
 
-          reading:
-            "イベント情報を読み込んでいます……",
+                reading:
+                  "イベント情報を読み込んでいます……",
 
-          date:
-            "日付",
+                date:
+                  "日付",
 
-          time:
-            "時間",
+                time:
+                  "時間",
 
-          venue:
-            "会場",
+                venue:
+                  "会場",
 
-          fee:
-            "参加費",
+                fee:
+                  "参加費",
 
-          joined:
-            "申込み済み",
+                joined:
+                  "申込み済み",
 
-          remaining:
-            "残り枠",
+                remaining:
+                  "残り枠",
 
-          venueInfo:
-            "📍 会場情報",
+                venueInfo:
+                  "📍 会場情報",
 
-          description:
-            "📋 イベント説明",
+                description:
+                  "📋 イベント説明",
 
-          participants:
-            "👥 申込み済み",
+                participants:
+                  "👥 申込み済み",
 
-          noParticipants:
-            "まだ申込みはありません",
+                noParticipants:
+                  "まだ申込みはありません",
 
-          register:
-            "📝 申し込む",
+                register:
+                  "📝 申し込む",
 
-          activityError:
-            "イベントの読み込みに失敗しました",
+                activityError:
+                  "イベントの読み込みに失敗しました",
 
-          noActivityID:
-            "ActivityID が見つかりません",
+                noActivityID:
+                  "ActivityID が見つかりません",
 
-          returnHome:
-            "イベント一覧からもう一度開いてください。",
+                returnHome:
+                  "イベント一覧からもう一度開いてください。",
 
-          serverError:
-            "サーバーからイベント情報が返されませんでした",
+                serverError:
+                  "サーバーからイベント情報が返されませんでした",
 
-          noActivity:
-            "イベント情報が見つかりません",
+                noActivity:
+                  "イベント情報が見つかりません",
 
-          readFailed:
-            "イベントの読み込みに失敗しました：",
+                readFailed:
+                  "イベントの読み込みに失敗しました：",
 
-          activityID:
-            "ActivityID："
+                activityID:
+                  "ActivityID："
 
-        }
+              }
 
-      };
+            };
 
 
-      /* =====================================================
-         当前语言
-      ===================================================== */
+            /* =====================================================
+               当前语言
+            ===================================================== */
 
-      let currentLanguage =
-        localStorage.getItem("language") ||
-        "zh";
+            let currentLanguage =
+              localStorage.getItem("language") ||
+              "zh";
 
-      if (!I18N[currentLanguage]) {
-        currentLanguage = "zh";
-      }
-
-
-      /* =====================================================
-         翻译
-      ===================================================== */
-
-      function t(key) {
-
-        return (
-          I18N[currentLanguage][key] ||
-          I18N.zh[key] ||
-          key
-        );
-
-      }
-
-
-      /* =====================================================
-         应用语言
-      ===================================================== */
-
-      function applyLanguage() {
-
-        document.title =
-          t("title");
-
-        const heroTitle =
-          document.getElementById(
-            "heroTitle"
-          );
-
-        const heroSubtitle =
-          document.getElementById(
-            "heroSubtitle"
-          );
-
-        const backButton =
-          document.getElementById(
-            "backButton"
-          );
-
-        const loadingText =
-          document.getElementById(
-            "loadingText"
-          );
-
-
-        if (heroTitle) {
-
-          heroTitle.textContent =
-            t("title");
-
-        }
-
-
-        if (heroSubtitle) {
-
-          heroSubtitle.textContent =
-            t("subtitle");
-
-        }
-
-
-        if (backButton) {
-
-          backButton.textContent =
-            t("back");
-
-        }
-
-
-        if (loadingText) {
-
-          loadingText.textContent =
-            t("loading");
-
-        }
-
-      }
-
-
-      /* =====================================================
-         ★★★ 说明文字清理 ★★★
-
-         这是这次解决巨大空白的核心。
-
-         会自动：
-         1. 统一换行
-         2. 删除最前面的空白行
-         3. 删除最后面的空白行
-         4. 删除每一行前后的多余空格
-
-         例如：
-
-
-
-                🎒 参加对象
-                新手、初级、中级均可
-
-
-
-         会变成：
-
-         🎒 参加对象
-         新手、初级、中级均可
-
-      ===================================================== */
-
-      function cleanDescription(value) {
-
-        if (
-          value === null ||
-          value === undefined
-        ) {
-
-          return "";
-
-        }
-
-
-        let text =
-          String(value)
-            .replace(/\r\n/g, "\n")
-            .replace(/\r/g, "\n");
-          text = text.replace(/^[\s\u3000]+/, "");
-
-        let lines =
-          text.split("\n");
-
-
-        /* 删除最前面的空行 */
-
-        while (
-          lines.length > 0 &&
-          lines[0].trim() === ""
-        ) {
-
-          lines.shift();
-
-        }
-
-
-        /* 删除最后面的空行 */
-
-        while (
-          lines.length > 0 &&
-          lines[lines.length - 1].trim() === ""
-        ) {
-
-          lines.pop();
-
-        }
-
-
-        /*
-         * 删除每一行左右的空格。
-         *
-         * 注意：
-         * 不删除行中间的正常空格。
-         */
-
-        lines =
-          lines.map(
-            function(line) {
-
-              return line.trim();
-
+            if (!I18N[currentLanguage]) {
+              currentLanguage = "zh";
             }
-          );
 
 
-        return lines.join("\n");
+            /* =====================================================
+               翻译
+            ===================================================== */
 
-      }
+            function t(key) {
 
-
-      /* =====================================================
-         页面加载
-      ===================================================== */
-
-      window.addEventListener(
-        "load",
-        function() {
-
-          applyLanguage();
-
-          loadActivity();
-
-        }
-      );
-
-
-      /* =====================================================
-         读取活动
-      ===================================================== */
-
-      function loadActivity() {
-
-        const result =
-          document.getElementById(
-            "result"
-          );
-
-        const registerArea =
-          document.getElementById(
-            "registerArea"
-          );
-
-
-        if (!activityID) {
-
-          result.innerHTML = `
-
-            <div class="card error">
-
-              <div class="error-title">
-
-                ❌
-                ${escapeHtml(
-                  t("noActivityID")
-                )}
-
-              </div>
-
-              <div>
-
-                ${escapeHtml(
-                  t("returnHome")
-                )}
-
-              </div>
-
-            </div>
-
-          `;
-
-          registerArea.innerHTML = "";
-
-          return;
-
-        }
-
-
-        result.innerHTML = `
-
-          <div class="card loading">
-
-            <div class="loading-spinner"></div>
-
-            <div>
-
-              ${escapeHtml(
-                t("reading")
-              )}
-
-            </div>
-
-          </div>
-
-        `;
-
-        registerArea.innerHTML = "";
-
-
-        google.script.run
-
-          .withSuccessHandler(
-            function(res) {
-
-              console.log(
-                "getActivityDetail:",
-                res
+              return (
+                I18N[currentLanguage][key] ||
+                I18N.zh[key] ||
+                key
               );
 
-
-              if (!res) {
-
-                showError(
-                  t("serverError")
-                );
-
-                return;
-
-              }
+            }
 
 
-              if (!res.Activity) {
+            /* =====================================================
+               应用语言
+            ===================================================== */
 
-                showError(
-                  t("noActivity")
-                );
+            function applyLanguage() {
 
-                return;
-
-              }
-
-
-              const a =
-                res.Activity || {};
-
-              const v =
-                res.Venue || {};
-
-              const c =
-                res.Count || {};
-
-              const participants =
-                Array.isArray(
-                  res.Participants
-                )
-                  ? res.Participants
-                  : [];
-
-
-              /* =================================================
-                 人数
-              ================================================= */
-
-              const joined =
-                Number(
-                  c.Joined || 0
-                );
-
-              const capacity =
-                Number(
-                  a.Capacity || 0
-                );
-
-              const remaining =
-                Number(
-                  c.Remaining != null
-                    ? c.Remaining
-                    : capacity - joined
-                );
-
-
-              let progress = 0;
-
-
-              if (capacity > 0) {
-
-                progress =
-                  Math.min(
-                    100,
-                    Math.max(
-                      0,
-                      (
-                        joined /
-                        capacity
-                      ) * 100
-                    )
-                  );
-
-              }
-
-
-              /* =================================================
-                 Hero
-              ================================================= */
+              document.title =
+                t("title");
 
               const heroTitle =
                 document.getElementById(
                   "heroTitle"
                 );
 
+              const heroSubtitle =
+                document.getElementById(
+                  "heroSubtitle"
+                );
+
+              const backButton =
+                document.getElementById(
+                  "backButton"
+                );
+
+              const loadingText =
+                document.getElementById(
+                  "loadingText"
+                );
+
 
               if (heroTitle) {
 
                 heroTitle.textContent =
-                  a.Title ||
                   t("title");
 
               }
 
 
-              /* =================================================
-                 基本资料
-              ================================================= */
+              if (heroSubtitle) {
 
-              let html = `
-
-                <div class="card">
-
-                  <div class="info-grid">
-
-
-                    <div class="info-item">
-
-                      <div class="info-icon">
-                        📅
-                      </div>
-
-                      <div class="info-label">
-
-                        ${escapeHtml(
-                          t("date")
-                        )}
-
-                      </div>
-
-                      <div class="info-value">
-
-                        ${escapeHtml(
-                          formatDate(
-                            a.Date
-                          )
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                      <div class="info-icon">
-                        🕐
-                      </div>
-
-                      <div class="info-label">
-
-                        ${escapeHtml(
-                          t("time")
-                        )}
-
-                      </div>
-
-                      <div class="info-value">
-
-                        ${escapeHtml(
-                          formatTime(
-                            a.StartTime
-                          )
-                        )}
-
-                        ～
-
-                        ${escapeHtml(
-                          formatTime(
-                            a.EndTime
-                          )
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                      <div class="info-icon">
-                        📍
-                      </div>
-
-                      <div class="info-label">
-
-                        ${escapeHtml(
-                          t("venue")
-                        )}
-
-                      </div>
-
-                      <div class="info-value">
-
-                        ${escapeHtml(
-                          v.Name || ""
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                      <div class="info-icon">
-                        💴
-                      </div>
-
-                      <div class="info-label">
-
-                        ${escapeHtml(
-                          t("fee")
-                        )}
-
-                      </div>
-
-                      <div class="info-value">
-
-                        ¥${Number(
-                          a.Fee || 0
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                  </div>
-
-                </div>
-
-
-                <div class="card count-card">
-
-                  <div class="count-header">
-
-                    <div class="count-title">
-
-                      👥
-                      ${escapeHtml(
-                        t("joined")
-                      )}
-
-                    </div>
-
-                    <div>
-
-                      <span class="count-number">
-                        ${joined}
-                      </span>
-
-                      <span class="count-total">
-                        / ${capacity}
-                      </span>
-
-                    </div>
-
-                  </div>
-
-
-                  <div class="count-bar">
-
-                    <div
-                      class="count-progress"
-                      style="width:${progress}%"
-                    ></div>
-
-                  </div>
-
-
-                  <div class="count-remaining">
-
-                    ${escapeHtml(
-                      t("remaining")
-                    )}：
-
-                    <strong>
-                      ${remaining}
-                    </strong>
-
-                  </div>
-
-                </div>
-
-              `;
-
-
-              /* =================================================
-                 ★★★ 活动说明 ★★★
-              ================================================= */
-
-              const description =
-                cleanDescription(
-                  a.Description
-                );
-
-
-              if (description) {
-
-html += `
-  <div class="card">
-    <h2 class="section-heading">${escapeHtml(t("description"))}</h2>
-    <div class="description">${escapeHtml(description)}</div>
-  </div>
-`;
-
+                heroSubtitle.textContent =
+                  t("subtitle");
 
               }
 
 
-              /* =================================================
-                 场地
-              ================================================= */
+              if (backButton) {
 
-              if (
-                v.Name ||
-                v.Address ||
-                v.Description ||
-                v.Access ||
-                v.Parking
-              ) {
-
-                html += `
-
-                  <div class="card">
-
-                    <h2 class="section-heading">
-
-                      ${escapeHtml(
-                        t("venueInfo")
-                      )}
-
-                    </h2>
-
-                `;
-
-
-                if (v.Name) {
-
-                  html += `
-
-                    <div class="venue-name">
-
-                      🏸
-                      ${escapeHtml(
-                        v.Name
-                      )}
-
-                    </div>
-
-                  `;
-
-                }
-
-
-                if (v.Address) {
-
-                  html += `
-
-                    <div class="venue-detail">
-
-                      🏠
-                      ${escapeHtml(
-                        v.Address
-                      )}
-
-                    </div>
-
-                  `;
-
-                }
-
-
-                if (v.Description) {
-
-                  html += `
-
-                    <div class="venue-detail">
-
-                      🏸 ${escapeHtml(
-                        v.Description
-                      )}
-
-                    </div>
-
-                  `;
-
-                }
-
-
-                if (v.Access) {
-
-                  html += `
-
-                    <div class="venue-detail">
-
-                      🚶
-                      ${escapeHtml(
-                        v.Access
-                      )}
-
-                    </div>
-
-                  `;
-
-                }
-
-
-                if (v.Parking) {
-
-                  html += `
-
-                    <div class="venue-detail">
-
-                      🚗
-                      ${escapeHtml(
-                        v.Parking
-                      )}
-
-                    </div>
-
-                  `;
-
-                }
-
-
-                html += `
-
-                  </div>
-
-                `;
+                backButton.textContent =
+                  t("back");
 
               }
 
 
-              /* =================================================
-                 报名人员
-              ================================================= */
+              if (loadingText) {
 
-              html += `
+                loadingText.textContent =
+                  t("loading");
 
-                <div class="card participants-card">
+              }
 
-                  <div class="section-heading">
-
-                    <span>👥</span>
-
-                    <span>
-
-                      ${escapeHtml(
-                        t("participants")
-                      )}
-
-                    </span>
-
-                    <span class="participant-count">
-
-                      ${participants.length}
-
-                    </span>
-
-                  </div>
+            }
 
 
-                  <div class="participants-table-wrap">
+            /* =====================================================
+               ★★★ 说明文字清理 ★★★
+
+               这是这次解决巨大空白的核心。
+
+               会自动：
+               1. 统一换行
+               2. 删除最前面的空白行
+               3. 删除最后面的空白行
+               4. 删除每一行前后的多余空格
+
+               例如：
 
 
-                    <div class="participant-header">
 
-                      <div></div>
+                      🎒 参加对象
+                      新手、初级、中级均可
 
-                      <div class="header-name">
-                        姓名
-                      </div>
 
-                      <div class="header-level">
-                        Level
-                      </div>
 
-                      <div class="header-status">
-                        报名状态
-                      </div>
+               会变成：
 
-                      <div class="header-message">
-                        Message
-                      </div>
+               🎒 参加对象
+               新手、初级、中级均可
 
-                    </div>
+            ===================================================== */
 
-              `;
-
+            function cleanDescription(value) {
 
               if (
-                participants.length > 0
+                value === null ||
+                value === undefined
               ) {
 
-                participants.forEach(
-                  function(p, index) {
+                return "";
 
-                    const status =
-                      String(
-                        p.Status || ""
-                      ).toUpperCase();
+              }
 
 
-                    let statusClass =
-                      "status-default";
+              let text =
+                String(value)
+                  .replace(/\r\n/g, "\n")
+                  .replace(/\r/g, "\n");
+                text = text.replace(/^[\s\u3000]+/, "");
+
+              let lines =
+                text.split("\n");
 
 
-                    if (
-                      status ===
-                      "CONFIRMED"
-                    ) {
+              /* 删除最前面的空行 */
 
-                      statusClass =
-                        "status-confirmed";
+              while (
+                lines.length > 0 &&
+                lines[0].trim() === ""
+              ) {
 
-                    } else if (
-                      status ===
-                        "WAITLIST" ||
-                      status ===
-                        "WAITING"
-                    ) {
+                lines.shift();
 
-                      statusClass =
-                        "status-waiting";
-
-                    } else if (
-                      status ===
-                      "CANCELLED"
-                    ) {
-
-                      statusClass =
-                        "status-cancelled";
-
-                    }
+              }
 
 
-                    html += `
+              /* 删除最后面的空行 */
 
-                      <div class="participant-row">
+              while (
+                lines.length > 0 &&
+                lines[lines.length - 1].trim() === ""
+              ) {
 
+                lines.pop();
 
-                        <div class="participant-number">
-
-                          ${index + 1}
-
-                        </div>
-
-
-                        <div class="participant-name">
-
-                          ${escapeHtml(
-                            p.Name || "-"
-                          )}
-
-                        </div>
+              }
 
 
-                        <div class="participant-level">
+              /*
+               * 删除每一行左右的空格。
+               *
+               * 注意：
+               * 不删除行中间的正常空格。
+               */
 
-                          ${escapeHtml(
-                            p.Level || "-"
-                          )}
+              lines =
+                lines.map(
+                  function(line) {
 
-                        </div>
-
-
-                        <div
-                          class="
-                            participant-status
-                            ${statusClass}
-                          "
-                        >
-
-                          ${escapeHtml(
-                            p.Status || "-"
-                          )}
-
-                        </div>
-
-
-                        <div class="participant-message">
-
-                          ${escapeHtml(
-                            p.Message || "-"
-                          )}
-
-                        </div>
-
-
-                      </div>
-
-                    `;
+                    return line.trim();
 
                   }
                 );
 
-              } else {
 
-                html += `
+              return lines.join("\n");
 
-                  <div class="empty-participant">
+            }
 
-                    <div class="empty-icon">
-                      👥
+
+            /* =====================================================
+               页面加载
+            ===================================================== */
+
+            window.addEventListener(
+              "load",
+              function() {
+
+                applyLanguage();
+
+                loadActivity();
+
+              }
+            );
+
+
+            /* =====================================================
+               读取活动
+            ===================================================== */
+
+            function loadActivity() {
+
+              const result =
+                document.getElementById(
+                  "result"
+                );
+
+              const registerArea =
+                document.getElementById(
+                  "registerArea"
+                );
+
+
+              if (!activityID) {
+
+                result.innerHTML = `
+
+                  <div class="card error">
+
+                    <div class="error-title">
+
+                      ❌
+                      ${escapeHtml(
+                        t("noActivityID")
+                      )}
+
                     </div>
 
                     <div>
 
                       ${escapeHtml(
-                        t("noParticipants")
+                        t("returnHome")
                       )}
 
                     </div>
@@ -2198,10 +1543,24 @@ html += `
 
                 `;
 
+                registerArea.innerHTML = "";
+
+                return;
+
               }
 
 
-              html += `
+              result.innerHTML = `
+
+                <div class="card loading">
+
+                  <div class="loading-spinner"></div>
+
+                  <div>
+
+                    ${escapeHtml(
+                      t("reading")
+                    )}
 
                   </div>
 
@@ -2209,63 +1568,737 @@ html += `
 
               `;
 
+              registerArea.innerHTML = "";
 
-              /* =================================================
-                 输出
-              ================================================= */
-
-              result.innerHTML =
-                html;
-
-
-              /* =================================================
-                 报名按钮
-              ================================================= */
 
               google.script.run
 
                 .withSuccessHandler(
-                  function(baseUrl) {
+                  function(res) {
 
-                    if (!baseUrl) {
+                    console.log(
+                      "getActivityDetail:",
+                      res
+                    );
 
-                      registerArea.innerHTML =
-                        "";
+
+                    if (!res) {
+
+                      showError(
+                        t("serverError")
+                      );
 
                       return;
 
                     }
 
 
-                    const registerUrl =
-                      baseUrl
-                      +
-                      "?page=register"
-                      +
-                      "&activityID="
-                      +
-                      encodeURIComponent(
-                        activityID
+                    if (!res.Activity) {
+
+                      showError(
+                        t("noActivity")
+                      );
+
+                      return;
+
+                    }
+
+
+                    const a =
+                      res.Activity || {};
+
+                    const v =
+                      res.Venue || {};
+
+                    const c =
+                      res.Count || {};
+
+                    const participants =
+                      Array.isArray(
+                        res.Participants
+                      )
+                        ? res.Participants
+                        : [];
+
+
+                    /* =================================================
+                       人数
+                    ================================================= */
+
+                    const joined =
+                      Number(
+                        c.Joined || 0
+                      );
+
+                    const capacity =
+                      Number(
+                        a.Capacity || 0
+                      );
+
+                    const remaining =
+                      Number(
+                        c.Remaining != null
+                          ? c.Remaining
+                          : capacity - joined
                       );
 
 
-                    registerArea.innerHTML = `
+                    let progress = 0;
 
-                      <a
-                        class="register-btn"
-                        href="${escapeHtml(
-                          registerUrl
-                        )}"
-                        target="_top"
-                      >
 
-                        ${escapeHtml(
-                          t("register")
-                        )}
+                    if (capacity > 0) {
 
-                      </a>
+                      progress =
+                        Math.min(
+                          100,
+                          Math.max(
+                            0,
+                            (
+                              joined /
+                              capacity
+                            ) * 100
+                          )
+                        );
+
+                    }
+
+
+                    /* =================================================
+                       Hero
+                    ================================================= */
+
+                    const heroTitle =
+                      document.getElementById(
+                        "heroTitle"
+                      );
+
+
+                    if (heroTitle) {
+
+                      heroTitle.textContent =
+                        a.Title ||
+                        t("title");
+
+                    }
+
+
+                    /* =================================================
+                       基本资料
+                    ================================================= */
+
+                    let html = `
+
+                      <div class="card">
+
+                        <div class="info-grid">
+
+
+                          <div class="info-item">
+
+                            <div class="info-icon">
+                              📅
+                            </div>
+
+                            <div class="info-label">
+
+                              ${escapeHtml(
+                                t("date")
+                              )}
+
+                            </div>
+
+                            <div class="info-value">
+
+                              ${escapeHtml(
+                                formatDate(
+                                  a.Date
+                                )
+                              )}
+
+                            </div>
+
+                          </div>
+
+
+                          <div class="info-item">
+
+                            <div class="info-icon">
+                              🕐
+                            </div>
+
+                            <div class="info-label">
+
+                              ${escapeHtml(
+                                t("time")
+                              )}
+
+                            </div>
+
+                            <div class="info-value">
+
+                              ${escapeHtml(
+                                formatTime(
+                                  a.StartTime
+                                )
+                              )}
+
+                              ～
+
+                              ${escapeHtml(
+                                formatTime(
+                                  a.EndTime
+                                )
+                              )}
+
+                            </div>
+
+                          </div>
+
+
+                          <div class="info-item">
+
+                            <div class="info-icon">
+                              📍
+                            </div>
+
+                            <div class="info-label">
+
+                              ${escapeHtml(
+                                t("venue")
+                              )}
+
+                            </div>
+
+                            <div class="info-value">
+
+                              ${escapeHtml(
+                                v.Name || ""
+                              )}
+
+                            </div>
+
+                          </div>
+
+
+                          <div class="info-item">
+
+                            <div class="info-icon">
+                              💴
+                            </div>
+
+                            <div class="info-label">
+
+                              ${escapeHtml(
+                                t("fee")
+                              )}
+
+                            </div>
+
+                            <div class="info-value">
+
+                              ¥${Number(
+                                a.Fee || 0
+                              )}
+
+                            </div>
+
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+
+                      <div class="card count-card">
+
+                        <div class="count-header">
+
+                          <div class="count-title">
+
+                            👥
+                            ${escapeHtml(
+                              t("joined")
+                            )}
+
+                          </div>
+
+                          <div>
+
+                            <span class="count-number">
+                              ${joined}
+                            </span>
+
+                            <span class="count-total">
+                              / ${capacity}
+                            </span>
+
+                          </div>
+
+                        </div>
+
+
+                        <div class="count-bar">
+
+                          <div
+                            class="count-progress"
+                            style="width:${progress}%"
+                          ></div>
+
+                        </div>
+
+
+                        <div class="count-remaining">
+
+                          ${escapeHtml(
+                            t("remaining")
+                          )}：
+
+                          <strong>
+                            ${remaining}
+                          </strong>
+
+                        </div>
+
+                      </div>
 
                     `;
+
+
+                    /* =================================================
+                       ★★★ 活动说明 ★★★
+                    ================================================= */
+
+                    const description =
+                      cleanDescription(
+                        a.Description
+                      );
+
+
+                    if (description) {
+
+      html += `
+        <div class="card">
+          <h2 class="section-heading">${escapeHtml(t("description"))}</h2>
+          <div class="description">${escapeHtml(description)}</div>
+        </div>
+      `;
+
+
+                    }
+
+
+                    /* =================================================
+                       场地
+                    ================================================= */
+
+                    if (
+                      v.Name ||
+                      v.Address ||
+                      v.Description ||
+                      v.Access ||
+                      v.Parking
+                    ) {
+
+                      html += `
+
+                        <div class="card">
+
+                          <h2 class="section-heading">
+
+                            ${escapeHtml(
+                              t("venueInfo")
+                            )}
+
+                          </h2>
+
+                      `;
+
+
+                      if (v.Name) {
+
+                        html += `
+
+                          <div class="venue-name">
+
+                            🏸
+                            ${escapeHtml(
+                              v.Name
+                            )}
+
+                          </div>
+
+                        `;
+
+                      }
+
+
+                      if (v.Address) {
+
+                        html += `
+
+                          <div class="venue-detail">
+
+                            🏠
+                            ${escapeHtml(
+                              v.Address
+                            )}
+
+                          </div>
+
+                        `;
+
+                      }
+
+
+                      if (v.Description) {
+
+                        html += `
+
+                          <div class="venue-detail">
+
+                            🏸 ${escapeHtml(
+                              v.Description
+                            )}
+
+                          </div>
+
+                        `;
+
+                      }
+
+
+                      if (v.Access) {
+
+                        html += `
+
+                          <div class="venue-detail">
+
+                            🚶
+                            ${escapeHtml(
+                              v.Access
+                            )}
+
+                          </div>
+
+                        `;
+
+                      }
+
+
+                      if (v.Parking) {
+
+                        html += `
+
+                          <div class="venue-detail">
+
+                            🚗
+                            ${escapeHtml(
+                              v.Parking
+                            )}
+
+                          </div>
+
+                        `;
+
+                      }
+
+
+                      html += `
+
+                        </div>
+
+                      `;
+
+                    }
+
+
+                    /* =================================================
+                       报名人员
+                    ================================================= */
+
+                    html += `
+
+                      <div class="card participants-card">
+
+                        <div class="section-heading">
+
+                          <span>👥</span>
+
+                          <span>
+
+                            ${escapeHtml(
+                              t("participants")
+                            )}
+
+                          </span>
+
+                          <span class="participant-count">
+
+                            ${participants.length}
+
+                          </span>
+
+                        </div>
+
+
+                        <div class="participants-table-wrap">
+
+
+                          <div class="participant-header">
+
+                            <div></div>
+
+                            <div class="header-name">
+                              姓名
+                            </div>
+
+                            <div class="header-level">
+                              Level
+                            </div>
+
+                            <div class="header-status">
+                              报名状态
+                            </div>
+
+                            <div class="header-message">
+                              Message
+                            </div>
+
+                          </div>
+
+                    `;
+
+
+                    if (
+                      participants.length > 0
+                    ) {
+
+                      participants.forEach(
+                        function(p, index) {
+
+                          const status =
+                            String(
+                              p.Status || ""
+                            ).toUpperCase();
+
+
+                          let statusClass =
+                            "status-default";
+
+
+                          if (
+                            status ===
+                            "CONFIRMED"
+                          ) {
+
+                            statusClass =
+                              "status-confirmed";
+
+                          } else if (
+                            status ===
+                              "WAITLIST" ||
+                            status ===
+                              "WAITING"
+                          ) {
+
+                            statusClass =
+                              "status-waiting";
+
+                          } else if (
+                            status ===
+                            "CANCELLED"
+                          ) {
+
+                            statusClass =
+                              "status-cancelled";
+
+                          }
+
+
+                          html += `
+
+                            <div class="participant-row">
+
+
+                              <div class="participant-number">
+
+                                ${index + 1}
+
+                              </div>
+
+
+                              <div class="participant-name">
+
+                                ${escapeHtml(
+                                  p.Name || "-"
+                                )}
+
+                              </div>
+
+
+                              <div class="participant-level">
+
+                                ${escapeHtml(
+                                  p.Level || "-"
+                                )}
+
+                              </div>
+
+
+                              <div
+                                class="
+                                  participant-status
+                                  ${statusClass}
+                                "
+                              >
+
+                                ${escapeHtml(
+                                  p.Status || "-"
+                                )}
+
+                              </div>
+
+
+                              <div class="participant-message">
+
+                                ${escapeHtml(
+                                  p.Message || "-"
+                                )}
+
+                              </div>
+
+
+                            </div>
+
+                          `;
+
+                        }
+                      );
+
+                    } else {
+
+                      html += `
+
+                        <div class="empty-participant">
+
+                          <div class="empty-icon">
+                            👥
+                          </div>
+
+                          <div>
+
+                            ${escapeHtml(
+                              t("noParticipants")
+                            )}
+
+                          </div>
+
+                        </div>
+
+                      `;
+
+                    }
+
+
+                    html += `
+
+                        </div>
+
+                      </div>
+
+                    `;
+
+
+                    /* =================================================
+                       输出
+                    ================================================= */
+
+                    result.innerHTML =
+                      html;
+
+
+                    /* =================================================
+                       报名按钮
+                    ================================================= */
+
+                    google.script.run
+
+                      .withSuccessHandler(
+                        function(baseUrl) {
+
+                          if (!baseUrl) {
+
+                            registerArea.innerHTML =
+                              "";
+
+                            return;
+
+                          }
+
+
+                          const registerUrl =
+                            baseUrl
+                            +
+                            "?page=register"
+                            +
+                            "&activityID="
+                            +
+                            encodeURIComponent(
+                              activityID
+                            );
+
+
+                          registerArea.innerHTML = `
+
+                            <a
+                              class="register-btn"
+                              href="${escapeHtml(
+                                registerUrl
+                              )}"
+                              target="_top"
+                            >
+
+                              ${escapeHtml(
+                                t("register")
+                              )}
+
+                            </a>
+
+                          `;
+
+                        }
+                      )
+
+                      .withFailureHandler(
+                        function(error) {
+
+                          console.error(
+                            "getWebAppUrl error:",
+                            error
+                          );
+
+
+                          registerArea.innerHTML = `
+
+                            <a
+                              class="register-btn"
+                              href="#"
+                              onclick="return false;"
+                            >
+
+                              ${escapeHtml(
+                                t("register")
+                              )}
+
+                            </a>
+
+                          `;
+
+                        }
+                      )
+
+                      .getWebAppUrl();
 
                   }
                 )
@@ -2274,275 +2307,242 @@ html += `
                   function(error) {
 
                     console.error(
-                      "getWebAppUrl error:",
+                      "getActivityDetail error:",
                       error
                     );
 
 
-                    registerArea.innerHTML = `
+                    const message =
+                      error &&
+                      error.message
+                        ? error.message
+                        : String(error);
 
-                      <a
-                        class="register-btn"
-                        href="#"
-                        onclick="return false;"
-                      >
 
-                        ${escapeHtml(
-                          t("register")
-                        )}
-
-                      </a>
-
-                    `;
+                    showError(
+                      t("readFailed") +
+                      message
+                    );
 
                   }
                 )
 
-                .getWebAppUrl();
+                .getActivityDetail(
+                  activityID
+                );
 
             }
-          )
-
-          .withFailureHandler(
-            function(error) {
-
-              console.error(
-                "getActivityDetail error:",
-                error
-              );
 
 
-              const message =
-                error &&
-                error.message
-                  ? error.message
-                  : String(error);
+            /* =====================================================
+               Error
+            ===================================================== */
+
+            function showError(message) {
+
+              const result =
+                document.getElementById(
+                  "result"
+                );
+
+              const registerArea =
+                document.getElementById(
+                  "registerArea"
+                );
 
 
-              showError(
-                t("readFailed") +
-                message
+              result.innerHTML = `
+
+                <div class="card error">
+
+                  <div class="error-title">
+
+                    ❌
+                    ${escapeHtml(
+                      t("activityError")
+                    )}
+
+                  </div>
+
+                  <div>
+
+                    ${escapeHtml(
+                      message
+                    )}
+
+                  </div>
+
+                  <div class="activity-id">
+
+                    ${escapeHtml(
+                      t("activityID")
+                    )}
+
+                    ${escapeHtml(
+                      activityID
+                    )}
+
+                  </div>
+
+                </div>
+
+              `;
+
+
+              registerArea.innerHTML = "";
+
+            }
+
+
+            /* =====================================================
+               日期
+            ===================================================== */
+
+            function formatDate(value) {
+
+              if (!value) {
+                return "";
+              }
+
+
+              const date =
+                new Date(value);
+
+
+              if (
+                !isNaN(
+                  date.getTime()
+                )
+              ) {
+
+                const year =
+                  date.getFullYear();
+
+                const month =
+                  String(
+                    date.getMonth() + 1
+                  ).padStart(
+                    2,
+                    "0"
+                  );
+
+                const day =
+                  String(
+                    date.getDate()
+                  ).padStart(
+                    2,
+                    "0"
+                  );
+
+
+                return (
+                  year +
+                  "-" +
+                  month +
+                  "-" +
+                  day
+                );
+
+              }
+
+
+              return String(value)
+                .substring(0, 10);
+
+            }
+
+
+            /* =====================================================
+               时间
+            ===================================================== */
+
+            function formatTime(value) {
+
+              if (!value) {
+                return "";
+              }
+
+
+              const str =
+                String(value);
+
+
+              const match =
+                str.match(
+                  /(?:T|\s)(\d{1,2}):(\d{2})/
+                );
+
+
+              if (match) {
+
+                return (
+                  String(
+                    match[1]
+                  ).padStart(
+                    2,
+                    "0"
+                  )
+                  +
+                  ":"
+                  +
+                  match[2]
+                );
+
+              }
+
+
+              return str.substring(
+                0,
+                5
               );
 
             }
-          )
 
-          .getActivityDetail(
-            activityID
-          );
 
-      }
+            /* =====================================================
+               HTML 安全
+            ===================================================== */
 
+            function escapeHtml(value) {
 
-      /* =====================================================
-         Error
-      ===================================================== */
+              if (
+                value === null ||
+                value === undefined
+              ) {
 
-      function showError(message) {
+                return "";
 
-        const result =
-          document.getElementById(
-            "result"
-          );
+              }
 
-        const registerArea =
-          document.getElementById(
-            "registerArea"
-          );
 
+              return String(value)
 
-        result.innerHTML = `
+                .replace(
+                  /&/g,
+                  "&amp;"
+                )
 
-          <div class="card error">
+                .replace(
+                  /</g,
+                  "&lt;"
+                )
 
-            <div class="error-title">
+                .replace(
+                  />/g,
+                  "&gt;"
+                )
 
-              ❌
-              ${escapeHtml(
-                t("activityError")
-              )}
+                .replace(
+                  /"/g,
+                  "&quot;"
+                )
 
-            </div>
+                .replace(
+                  /'/g,
+                  "&#039;"
+                );
 
-            <div>
-
-              ${escapeHtml(
-                message
-              )}
-
-            </div>
-
-            <div class="activity-id">
-
-              ${escapeHtml(
-                t("activityID")
-              )}
-
-              ${escapeHtml(
-                activityID
-              )}
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        registerArea.innerHTML = "";
-
-      }
-
-
-      /* =====================================================
-         日期
-      ===================================================== */
-
-      function formatDate(value) {
-
-        if (!value) {
-          return "";
-        }
-
-
-        const date =
-          new Date(value);
-
-
-        if (
-          !isNaN(
-            date.getTime()
-          )
-        ) {
-
-          const year =
-            date.getFullYear();
-
-          const month =
-            String(
-              date.getMonth() + 1
-            ).padStart(
-              2,
-              "0"
-            );
-
-          const day =
-            String(
-              date.getDate()
-            ).padStart(
-              2,
-              "0"
-            );
-
-
-          return (
-            year +
-            "-" +
-            month +
-            "-" +
-            day
-          );
-
-        }
-
-
-        return String(value)
-          .substring(0, 10);
-
-      }
-
-
-      /* =====================================================
-         时间
-      ===================================================== */
-
-      function formatTime(value) {
-
-        if (!value) {
-          return "";
-        }
-
-
-        const str =
-          String(value);
-
-
-        const match =
-          str.match(
-            /(?:T|\s)(\d{1,2}):(\d{2})/
-          );
-
-
-        if (match) {
-
-          return (
-            String(
-              match[1]
-            ).padStart(
-              2,
-              "0"
-            )
-            +
-            ":"
-            +
-            match[2]
-          );
-
-        }
-
-
-        return str.substring(
-          0,
-          5
-        );
-
-      }
-
-
-      /* =====================================================
-         HTML 安全
-      ===================================================== */
-
-      function escapeHtml(value) {
-
-        if (
-          value === null ||
-          value === undefined
-        ) {
-
-          return "";
-
-        }
-
-
-        return String(value)
-
-          .replace(
-            /&/g,
-            "&amp;"
-          )
-
-          .replace(
-            /</g,
-            "&lt;"
-          )
-
-          .replace(
-            />/g,
-            "&gt;"
-          )
-
-          .replace(
-            /"/g,
-            "&quot;"
-          )
-
-          .replace(
-            /'/g,
-            "&#039;"
-          );
-
-      }
+            }
     </script>
   </body>
 </html>

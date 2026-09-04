@@ -33,13 +33,8 @@
         padding: 0;
 
         font-family:
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Arial,
-          "Noto Sans SC",
-          "Noto Sans JP",
-          sans-serif;
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "Noto Sans SC",
+          "Noto Sans JP", sans-serif;
 
         font-size: 22px;
         color: #14213d;
@@ -55,12 +50,7 @@
             rgba(30, 136, 229, 0.12),
             transparent 30%
           ),
-          linear-gradient(
-            180deg,
-            #eaf4ff 0%,
-            #f5f9ff 38%,
-            #ffffff 100%
-          );
+          linear-gradient(180deg, #eaf4ff 0%, #f5f9ff 38%, #ffffff 100%);
 
         overflow-x: hidden;
       }
@@ -479,11 +469,7 @@
 
         border-radius: 28px 0 0 28px;
 
-        background: linear-gradient(
-          180deg,
-          #1565c0,
-          #42a5f5
-        );
+        background: linear-gradient(180deg, #1565c0, #42a5f5);
       }
 
       /* ==================================================
@@ -526,11 +512,7 @@
         border: 1px solid #e3ebf5;
         border-radius: 18px;
 
-        background: linear-gradient(
-          135deg,
-          #f7faff,
-          #f1f6fc
-        );
+        background: linear-gradient(135deg, #f7faff, #f1f6fc);
       }
 
       .info-label {
@@ -646,11 +628,7 @@
         border: 2px solid #bfdbfe;
         border-radius: 18px;
 
-        background: linear-gradient(
-          135deg,
-          #eff6ff,
-          #f8fbff
-        );
+        background: linear-gradient(135deg, #eff6ff, #f8fbff);
       }
 
       .registration-id-label {
@@ -692,12 +670,7 @@
         border: 0;
         border-radius: 18px;
 
-        background: linear-gradient(
-          135deg,
-          #dc2626,
-          #ef4444,
-          #f87171
-        );
+        background: linear-gradient(135deg, #dc2626, #ef4444, #f87171);
 
         color: #ffffff;
 
@@ -741,11 +714,7 @@
         border: 0;
         border-radius: 18px;
 
-        background: linear-gradient(
-          135deg,
-          #334155,
-          #64748b
-        );
+        background: linear-gradient(135deg, #334155, #64748b);
 
         color: #ffffff;
 
@@ -1139,11 +1108,7 @@
         }
 
         .registration-id-box {
-          background: linear-gradient(
-            135deg,
-            #10294a,
-            #14253b
-          );
+          background: linear-gradient(135deg, #10294a, #14253b);
 
           border-color: #24538b;
         }
@@ -1153,15 +1118,12 @@
 
   <body>
     <div class="container">
-
       <!-- ==================================================
            Header
       ================================================== -->
 
       <div class="header">
-
         <div class="language-switcher">
-
           <button
             type="button"
             id="langZh"
@@ -1181,18 +1143,13 @@
           >
             日本語
           </button>
-
         </div>
 
         <h1 data-i18n="title">📋 我的报名</h1>
 
-        <div
-          class="subtitle"
-          data-i18n="subtitle"
-        >
+        <div class="subtitle" data-i18n="subtitle">
           查询您的羽球活动报名记录
         </div>
-
       </div>
 
       <!-- ==================================================
@@ -1200,19 +1157,9 @@
       ================================================== -->
 
       <div class="search-card">
+        <div class="section-title" data-i18n="searchTitle">🔎 查询报名记录</div>
 
-        <div
-          class="section-title"
-          data-i18n="searchTitle"
-        >
-          🔎 查询报名记录
-        </div>
-
-        <label
-          class="label"
-          for="contactValue"
-          data-i18n="contactLabel"
-        >
+        <label class="label" for="contactValue" data-i18n="contactLabel">
           🔎 搜索键
         </label>
 
@@ -1235,7 +1182,6 @@
         >
           🔎 查询我的报名
         </button>
-
       </div>
 
       <!-- ==================================================
@@ -1256,7 +1202,6 @@
       >
         ← 返回活动列表
       </button>
-
     </div>
 
     <script>
@@ -1316,7 +1261,7 @@
           unknown: "未知",
 
           loading: "正在查询……",
-          error: "查询失败："
+          error: "查询失败：",
         },
 
         ja: {
@@ -1370,24 +1315,22 @@
           unknown: "不明",
 
           loading: "検索しています……",
-          error: "検索に失敗しました："
-        }
+          error: "検索に失敗しました：",
+        },
       };
 
       /* =====================================================
          当前语言
       ===================================================== */
 
-      let currentLanguage =
-        localStorage.getItem("language") || "zh";
+      let currentLanguage = localStorage.getItem("language") || "zh";
 
       /* =====================================================
          翻译
       ===================================================== */
 
       function t(key) {
-        const lang =
-          I18N[currentLanguage] || I18N.zh;
+        const lang = I18N[currentLanguage] || I18N.zh;
 
         if (lang[key] !== undefined) {
           return lang[key];
@@ -1407,10 +1350,7 @@
 
         currentLanguage = lang;
 
-        localStorage.setItem(
-          "language",
-          lang
-        );
+        localStorage.setItem("language", lang);
 
         applyLanguage();
       }
@@ -1420,44 +1360,30 @@
       ===================================================== */
 
       function applyLanguage() {
-        document
-          .querySelectorAll("[data-i18n]")
-          .forEach(function (el) {
-            const key =
-              el.getAttribute("data-i18n");
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          const key = el.getAttribute("data-i18n");
 
-            el.textContent = t(key);
-          });
+          el.textContent = t(key);
+        });
 
         document
           .querySelectorAll("[data-i18n-placeholder]")
           .forEach(function (el) {
-            const key =
-              el.getAttribute(
-                "data-i18n-placeholder"
-              );
+            const key = el.getAttribute("data-i18n-placeholder");
 
             el.placeholder = t(key);
           });
 
-        const zh =
-          document.getElementById("langZh");
+        const zh = document.getElementById("langZh");
 
-        const ja =
-          document.getElementById("langJa");
+        const ja = document.getElementById("langJa");
 
         if (zh) {
-          zh.classList.toggle(
-            "active",
-            currentLanguage === "zh"
-          );
+          zh.classList.toggle("active", currentLanguage === "zh");
         }
 
         if (ja) {
-          ja.classList.toggle(
-            "active",
-            currentLanguage === "ja"
-          );
+          ja.classList.toggle("active", currentLanguage === "ja");
         }
       }
 
@@ -1465,61 +1391,39 @@
          页面加载
       ===================================================== */
 
-      window.addEventListener(
-        "DOMContentLoaded",
-        function () {
-          applyLanguage();
+      window.addEventListener("DOMContentLoaded", function () {
+        applyLanguage();
 
-          google.script.url.getLocation(
-            function (location) {
-              if (
-                location &&
-                location.parameter &&
-                location.parameter.contactValue
-              ) {
-                const value =
-                  String(
-                    location.parameter.contactValue
-                  );
+        google.script.url.getLocation(function (location) {
+          if (
+            location &&
+            location.parameter &&
+            location.parameter.contactValue
+          ) {
+            const value = String(location.parameter.contactValue);
 
-                const input =
-                  document.getElementById(
-                    "contactValue"
-                  );
+            const input = document.getElementById("contactValue");
 
-                input.value = value;
+            input.value = value;
 
-                searchRegistrations();
-              }
-            }
-          );
-        }
-      );
+            searchRegistrations();
+          }
+        });
+      });
 
       /* =====================================================
          查询报名
       ===================================================== */
 
       function searchRegistrations() {
-        const input =
-          document.getElementById(
-            "contactValue"
-          );
+        const input = document.getElementById("contactValue");
 
-        const button =
-          document.getElementById(
-            "searchButton"
-          );
+        const button = document.getElementById("searchButton");
 
-        const contactValue =
-          input.value.trim();
+        const contactValue = input.value.trim();
 
         if (!contactValue) {
-          showMessage(
-            "⚠️",
-            t("empty"),
-            ""
-          );
+          showMessage("⚠️", t("empty"), "");
 
           return;
         }
@@ -1527,29 +1431,17 @@
         button.disabled = true;
         button.textContent = t("searching");
 
-        document.getElementById(
-          "result"
-        ).innerHTML = "";
+        document.getElementById("result").innerHTML = "";
 
         google.script.run
 
           .withSuccessHandler(function (res) {
             button.disabled = false;
 
-            button.textContent =
-              t("searchButton");
+            button.textContent = t("searchButton");
 
-            if (
-              !res ||
-              !res.success ||
-              !res.data ||
-              !res.data.length
-            ) {
-              showMessage(
-                "🔍",
-                t("noRecords"),
-                t("noRecordsDescription")
-              );
+            if (!res || !res.success || !res.data || !res.data.length) {
+              showMessage("🔍", t("noRecords"), t("noRecordsDescription"));
 
               return;
             }
@@ -1560,16 +1452,12 @@
           .withFailureHandler(function (error) {
             button.disabled = false;
 
-            button.textContent =
-              t("searchButton");
+            button.textContent = t("searchButton");
 
             showMessage(
               "⚠️",
               t("error"),
-              error &&
-              error.message
-                ? error.message
-                : String(error)
+              error && error.message ? error.message : String(error),
             );
           })
 
@@ -1581,10 +1469,7 @@
       ===================================================== */
 
       function renderRegistrations(data) {
-        const result =
-          document.getElementById(
-            "result"
-          );
+        const result = document.getElementById("result");
 
         let html = `
           <div class="message-card">
@@ -1594,15 +1479,11 @@
             </div>
 
             <div class="message-title">
-              ${escapeHtml(
-                t("recordsFound")
-              )}
+              ${escapeHtml(t("recordsFound"))}
             </div>
 
             <div class="message-text">
-              ${escapeHtml(
-                String(data.length)
-              )}
+              ${escapeHtml(String(data.length))}
             </div>
 
           </div>
@@ -1620,46 +1501,25 @@
       ===================================================== */
 
       function renderRegistration(r) {
-        const status =
-          getStatus(r.Status);
+        const status = getStatus(r.Status);
 
-        const payment =
-          getPaymentStatus(
-            r.PaymentStatus
-          );
+        const payment = getPaymentStatus(r.PaymentStatus);
 
-        const checkin =
-          getCheckinStatus(
-            r.CheckinStatus
-          );
+        const checkin = getCheckinStatus(r.CheckinStatus);
 
-        const time =
-          formatTime(
-            r.StartTime,
-            r.EndTime
-          );
+        const time = formatTime(r.StartTime, r.EndTime);
 
-        const registrationID =
-          String(
-            r.RegistrationID || ""
-          );
+        const registrationID = String(r.RegistrationID || "");
 
-        const rawStatus =
-          String(r.Status || "")
-            .trim()
-            .toUpperCase();
+        const rawStatus = String(r.Status || "")
+          .trim()
+          .toUpperCase();
 
-        const canCancel =
-          rawStatus === "CONFIRMED" ||
-          rawStatus === "WAITLIST";
+        const canCancel = rawStatus === "CONFIRMED" || rawStatus === "WAITLIST";
 
         const title =
           r.Title ||
-          (
-            currentLanguage === "ja"
-              ? "バドミントンイベント"
-              : "羽球活动"
-          );
+          (currentLanguage === "ja" ? "バドミントンイベント" : "羽球活动");
 
         return `
           <div class="registration-card">
@@ -1675,15 +1535,11 @@
 
                 <div class="info-label">
                   📅
-                  ${escapeHtml(
-                    t("date")
-                  )}
+                  ${escapeHtml(t("date"))}
                 </div>
 
                 <div class="info-value">
-                  ${escapeHtml(
-                    formatDate(r.Date)
-                  )}
+                  ${escapeHtml(formatDate(r.Date))}
                 </div>
 
               </div>
@@ -1692,9 +1548,7 @@
 
                 <div class="info-label">
                   🕐
-                  ${escapeHtml(
-                    t("time")
-                  )}
+                  ${escapeHtml(t("time"))}
                 </div>
 
                 <div class="info-value">
@@ -1707,15 +1561,11 @@
 
                 <div class="info-label">
                   📍
-                  ${escapeHtml(
-                    t("venue")
-                  )}
+                  ${escapeHtml(t("venue"))}
                 </div>
 
                 <div class="info-value">
-                  ${escapeHtml(
-                    r.VenueName || "-"
-                  )}
+                  ${escapeHtml(r.VenueName || "-")}
                 </div>
 
               </div>
@@ -1724,9 +1574,7 @@
 
                 <div class="info-label">
                   🎫
-                  ${escapeHtml(
-                    t("status")
-                  )}
+                  ${escapeHtml(t("status"))}
                 </div>
 
                 <div class="status-row">
@@ -1734,9 +1582,7 @@
                   <span
                     class="status ${status.className}"
                   >
-                    ${escapeHtml(
-                      status.text
-                    )}
+                    ${escapeHtml(status.text)}
                   </span>
 
                 </div>
@@ -1747,9 +1593,7 @@
 
                 <div class="info-label">
                   💰
-                  ${escapeHtml(
-                    t("payment")
-                  )}
+                  ${escapeHtml(t("payment"))}
                 </div>
 
                 <div class="status-row">
@@ -1757,9 +1601,7 @@
                   <span
                     class="status ${payment.className}"
                   >
-                    ${escapeHtml(
-                      payment.text
-                    )}
+                    ${escapeHtml(payment.text)}
                   </span>
 
                 </div>
@@ -1770,9 +1612,7 @@
 
                 <div class="info-label">
                   📱
-                  ${escapeHtml(
-                    t("checkin")
-                  )}
+                  ${escapeHtml(t("checkin"))}
                 </div>
 
                 <div class="status-row">
@@ -1780,9 +1620,7 @@
                   <span
                     class="status ${checkin.className}"
                   >
-                    ${escapeHtml(
-                      checkin.text
-                    )}
+                    ${escapeHtml(checkin.text)}
                   </span>
 
                 </div>
@@ -1794,15 +1632,11 @@
             <div class="registration-id-box">
 
               <div class="registration-id-label">
-                ${escapeHtml(
-                  t("registrationID")
-                )}
+                ${escapeHtml(t("registrationID"))}
               </div>
 
               <div class="registration-id">
-                ${escapeHtml(
-                  registrationID
-                )}
+                ${escapeHtml(registrationID)}
               </div>
 
             </div>
@@ -1813,16 +1647,10 @@
                   <button
                     type="button"
                     class="cancel-button"
-                    data-registration-id="${escapeHtml(
-                      registrationID
-                    )}"
-                    onclick="cancelRegistration('${escapeJs(
-                      registrationID
-                    )}')"
+                    data-registration-id="${escapeHtml(registrationID)}"
+                    onclick="cancelRegistration('${escapeJs(registrationID)}')"
                   >
-                    ${escapeHtml(
-                      t("cancelRegistration")
-                    )}
+                    ${escapeHtml(t("cancelRegistration"))}
                   </button>
                 `
                 : ""
@@ -1837,35 +1665,34 @@
       ===================================================== */
 
       function getStatus(status) {
-        const value =
-          String(status || "")
-            .trim()
-            .toUpperCase();
+        const value = String(status || "")
+          .trim()
+          .toUpperCase();
 
         if (value === "CONFIRMED") {
           return {
             text: t("confirmed"),
-            className: "confirmed"
+            className: "confirmed",
           };
         }
 
         if (value === "WAITLIST") {
           return {
             text: t("waitlist"),
-            className: "waitlist"
+            className: "waitlist",
           };
         }
 
         if (value === "CANCELLED") {
           return {
             text: t("cancelled"),
-            className: "cancelled"
+            className: "cancelled",
           };
         }
 
         return {
           text: t("unknown"),
-          className: "unknown"
+          className: "unknown",
         };
       }
 
@@ -1874,38 +1701,34 @@
       ===================================================== */
 
       function getPaymentStatus(status) {
-        const value =
-          String(status || "")
-            .trim()
-            .toUpperCase();
+        const value = String(status || "")
+          .trim()
+          .toUpperCase();
 
         if (value === "PAID") {
           return {
             text: t("paid"),
-            className: "paid"
+            className: "paid",
           };
         }
 
         if (value === "UNPAID") {
           return {
             text: t("unpaid"),
-            className: "unpaid"
+            className: "unpaid",
           };
         }
 
-        if (
-          value === "NONE" ||
-          value === ""
-        ) {
+        if (value === "NONE" || value === "") {
           return {
             text: t("none"),
-            className: "none-status"
+            className: "none-status",
           };
         }
 
         return {
           text: status || t("unknown"),
-          className: "unknown"
+          className: "unknown",
         };
       }
 
@@ -1914,10 +1737,9 @@
       ===================================================== */
 
       function getCheckinStatus(status) {
-        const value =
-          String(status || "")
-            .trim()
-            .toUpperCase();
+        const value = String(status || "")
+          .trim()
+          .toUpperCase();
 
         if (
           value === "CHECKED_IN" ||
@@ -1926,13 +1748,13 @@
         ) {
           return {
             text: t("checked"),
-            className: "checked"
+            className: "checked",
           };
         }
 
         return {
           text: t("notChecked"),
-          className: "not-checked"
+          className: "not-checked",
         };
       }
 
@@ -1945,24 +1767,18 @@
           return "-";
         }
 
-        const date =
-          new Date(value);
+        const date = new Date(value);
 
         if (isNaN(date.getTime())) {
-          return String(value)
-            .substring(0, 10);
+          return String(value).substring(0, 10);
         }
 
         return (
           date.getFullYear() +
           "-" +
-          String(
-            date.getMonth() + 1
-          ).padStart(2, "0") +
+          String(date.getMonth() + 1).padStart(2, "0") +
           "-" +
-          String(
-            date.getDate()
-          ).padStart(2, "0")
+          String(date.getDate()).padStart(2, "0")
         );
       }
 
@@ -1980,18 +1796,13 @@
             return "";
           }
 
-          const date =
-            new Date(value);
+          const date = new Date(value);
 
           if (!isNaN(date.getTime())) {
             return (
-              String(
-                date.getHours()
-              ).padStart(2, "0") +
+              String(date.getHours()).padStart(2, "0") +
               ":" +
-              String(
-                date.getMinutes()
-              ).padStart(2, "0")
+              String(date.getMinutes()).padStart(2, "0")
             );
           }
 
@@ -2012,67 +1823,42 @@
          取消报名
       ===================================================== */
 
-      function cancelRegistration(
-        registrationID
-      ) {
+      function cancelRegistration(registrationID) {
         if (!registrationID) {
           return;
         }
 
-        if (
-          !window.confirm(
-            t("cancelConfirm")
-          )
-        ) {
+        if (!window.confirm(t("cancelConfirm"))) {
           return;
         }
 
-        const buttons =
-          document.querySelectorAll(
-            ".cancel-button"
-          );
+        const buttons = document.querySelectorAll(".cancel-button");
 
         buttons.forEach(function (button) {
           button.disabled = true;
-          button.textContent =
-            t("cancelling");
+          button.textContent = t("cancelling");
         });
 
         google.script.run
 
           .withSuccessHandler(function (res) {
-            if (
-              !res ||
-              !res.success
-            ) {
-              buttons.forEach(
-                function (button) {
-                  button.disabled = false;
+            if (!res || !res.success) {
+              buttons.forEach(function (button) {
+                button.disabled = false;
 
-                  button.textContent =
-                    t(
-                      "cancelRegistration"
-                    );
-                }
-              );
+                button.textContent = t("cancelRegistration");
+              });
 
               showMessage(
                 "⚠️",
                 t("cancelFailed"),
-                res &&
-                res.message
-                  ? res.message
-                  : t("unknown")
+                res && res.message ? res.message : t("unknown"),
               );
 
               return;
             }
 
-            showMessage(
-              "✅",
-              t("cancelSuccess"),
-              ""
-            );
+            showMessage("✅", t("cancelSuccess"), "");
 
             setTimeout(function () {
               searchRegistrations();
@@ -2080,30 +1866,20 @@
           })
 
           .withFailureHandler(function (error) {
-            buttons.forEach(
-              function (button) {
-                button.disabled = false;
+            buttons.forEach(function (button) {
+              button.disabled = false;
 
-                button.textContent =
-                  t(
-                    "cancelRegistration"
-                  );
-              }
-            );
+              button.textContent = t("cancelRegistration");
+            });
 
             showMessage(
               "⚠️",
               t("cancelFailed"),
-              error &&
-              error.message
-                ? error.message
-                : String(error)
+              error && error.message ? error.message : String(error),
             );
           })
 
-          .cancelRegistration(
-            registrationID
-          );
+          .cancelRegistration(registrationID);
       }
 
       /* =====================================================
@@ -2114,16 +1890,13 @@
         google.script.run
 
           .withSuccessHandler(function (url) {
-            window.top.location.href =
-              url;
+            window.top.location.href = url;
           })
 
           .withFailureHandler(function (error) {
             console.error(error);
 
-            if (
-              window.history.length > 1
-            ) {
+            if (window.history.length > 1) {
               window.history.back();
             }
           })
@@ -2135,14 +1908,8 @@
          消息
       ===================================================== */
 
-      function showMessage(
-        icon,
-        title,
-        text
-      ) {
-        document.getElementById(
-          "result"
-        ).innerHTML = `
+      function showMessage(icon, title, text) {
+        document.getElementById("result").innerHTML = `
           <div class="message-card">
 
             <div class="message-icon">
@@ -2172,34 +1939,16 @@
       ===================================================== */
 
       function escapeHtml(value) {
-        if (
-          value === null ||
-          value === undefined
-        ) {
+        if (value === null || value === undefined) {
           return "";
         }
 
         return String(value)
-          .replace(
-            /&/g,
-            "&amp;"
-          )
-          .replace(
-            /</g,
-            "&lt;"
-          )
-          .replace(
-            />/g,
-            "&gt;"
-          )
-          .replace(
-            /"/g,
-            "&quot;"
-          )
-          .replace(
-            /'/g,
-            "&#039;"
-          );
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
       }
 
       /* =====================================================
@@ -2208,50 +1957,29 @@
 
       function escapeJs(value) {
         return String(value || "")
-          .replace(
-            /\\/g,
-            "\\\\"
-          )
-          .replace(
-            /'/g,
-            "\\'"
-          )
-          .replace(
-            /\r/g,
-            "\\r"
-          )
-          .replace(
-            /\n/g,
-            "\\n"
-          );
+          .replace(/\\/g, "\\\\")
+          .replace(/'/g, "\\'")
+          .replace(/\r/g, "\\r")
+          .replace(/\n/g, "\\n");
       }
 
       /* =====================================================
          Enter 回车查询
       ===================================================== */
 
-      document.addEventListener(
-        "keydown",
-        function (event) {
-          if (event.key !== "Enter") {
-            return;
-          }
-
-          const input =
-            document.getElementById(
-              "contactValue"
-            );
-
-          if (
-            document.activeElement ===
-            input
-          ) {
-            event.preventDefault();
-
-            searchRegistrations();
-          }
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter") {
+          return;
         }
-      );
+
+        const input = document.getElementById("contactValue");
+
+        if (document.activeElement === input) {
+          event.preventDefault();
+
+          searchRegistrations();
+        }
+      });
     </script>
   </body>
 </html>

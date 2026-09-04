@@ -1749,13 +1749,9 @@ function sendRegistrationCancelledNotificationToV2_(data) {
 
   const responseText = response.getContentText();
 
-  console.log(
-    "V2 REGISTRATION_CANCELLED HTTP: " + statusCode,
-  );
+  console.log("V2 REGISTRATION_CANCELLED HTTP: " + statusCode);
 
-  console.log(
-    "V2 REGISTRATION_CANCELLED response: " + responseText,
-  );
+  console.log("V2 REGISTRATION_CANCELLED response: " + responseText);
 
   if (statusCode < 200 || statusCode >= 300) {
     throw new Error(
@@ -1771,9 +1767,7 @@ function sendRegistrationCancelledNotificationToV2_(data) {
   try {
     result = JSON.parse(responseText);
   } catch (error) {
-    throw new Error(
-      "V2 REGISTRATION_CANCELLED 返回的 JSON 无法解析。",
-    );
+    throw new Error("V2 REGISTRATION_CANCELLED 返回的 JSON 无法解析。");
   }
 
   if (!result.success) {

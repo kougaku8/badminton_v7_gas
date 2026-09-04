@@ -91,38 +91,37 @@
            参加者快捷入口
       ====================================================== -->
 
-<div class="quick-actions">
-  <!-- 签到 -->
-  <button
-    type="button"
-    class="quick-button checkin"
-    onclick="openCheckin()"
-    data-i18n="checkin"
-  >
-    📱 签到
-  </button>
+      <div class="quick-actions">
+        <!-- 签到 -->
+        <button
+          type="button"
+          class="quick-button checkin"
+          onclick="openCheckin()"
+          data-i18n="checkin"
+        >
+          📱 签到
+        </button>
 
-  <!-- 我的报名 -->
-  <button
-    type="button"
-    class="quick-button"
-    onclick="openMyRegistration()"
-    data-i18n="myRegistration"
-  >
-    📋 我的报名
-  </button>
+        <!-- 我的报名 -->
+        <button
+          type="button"
+          class="quick-button"
+          onclick="openMyRegistration()"
+          data-i18n="myRegistration"
+        >
+          📋 我的报名
+        </button>
 
-  <!-- 通知设置 -->
-  <button
-    type="button"
-    class="quick-button"
-    onclick="openNotificationV2()"
-    data-i18n="notificationSettings"
-  >
-    🔔 通知设置
-  </button>
-</div>
-
+        <!-- 通知设置 -->
+        <button
+          type="button"
+          class="quick-button"
+          onclick="openNotificationV2()"
+          data-i18n="notificationSettings"
+        >
+          🔔 通知设置
+        </button>
+      </div>
 
       <!-- =====================================================
            查找活动
@@ -1225,9 +1224,9 @@
           .getWebAppUrl();
       }
 
-
       function openNotificationV2() {
-        const url = "https://script.google.com/macros/s/AKfycbxz1vbqjVOIcDD_GenDog-N4eEiD1_rBKHHRl0xovwKT_xfZWwUm0-rjjuNvjYG0Jlj/exec";
+        const url =
+          "https://script.google.com/macros/s/AKfycbxz1vbqjVOIcDD_GenDog-N4eEiD1_rBKHHRl0xovwKT_xfZWwUm0-rjjuNvjYG0Jlj/exec";
         window.top.location.href = url;
       }
 

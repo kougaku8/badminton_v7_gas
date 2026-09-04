@@ -1371,72 +1371,57 @@ function cancelRegistrationCore(registrationID) {
 
   SpreadsheetApp.flush();
 
-/**************************************************
- * 读取取消报名者资料
- **************************************************/
+  /**************************************************
+   * 读取取消报名者资料
+   **************************************************/
 
-const cancelNameIndex = headers.indexOf("Name");
+  const cancelNameIndex = headers.indexOf("Name");
 
-const cancelContactValueIndex = headers.indexOf("ContactValue");
+  const cancelContactValueIndex = headers.indexOf("ContactValue");
 
-let cancelParticipantName = "";
+  let cancelParticipantName = "";
 
-let cancelContactValue = "";
+  let cancelContactValue = "";
 
-if (cancelNameIndex !== -1) {
-  cancelParticipantName = normalizeString(
-    data[targetRow - 1][cancelNameIndex],
-  );
-}
-
-if (cancelContactValueIndex !== -1) {
-  cancelContactValue = normalizeString(
-    data[targetRow - 1][cancelContactValueIndex],
-  );
-}
-
-/**************************************************
- * 读取活动资料
- **************************************************/
-
-const cancelActivities = sheetToJson(
-  CONFIG.SHEETS.ACTIVITIES,
-);
-
-const cancelActivity =
-  cancelActivities.find(function (activity) {
-    return (
-      normalizeString(activity.ActivityID) === activityID
+  if (cancelNameIndex !== -1) {
+    cancelParticipantName = normalizeString(
+      data[targetRow - 1][cancelNameIndex],
     );
-  }) || {};
+  }
 
-/**************************************************
- * V2 → REGISTRATION_CANCELLED
- **************************************************/
+  if (cancelContactValueIndex !== -1) {
+    cancelContactValue = normalizeString(
+      data[targetRow - 1][cancelContactValueIndex],
+    );
+  }
 
-try {
-  Logger.log(
-    "===== 开始发送取消报名通知 =====",
-  );
+  /**************************************************
+   * 读取活动资料
+   **************************************************/
 
-  Logger.log(
-    "registrationID = " + targetID,
-  );
+  const cancelActivities = sheetToJson(CONFIG.SHEETS.ACTIVITIES);
 
-  Logger.log(
-    "activityID = " + activityID,
-  );
+  const cancelActivity =
+    cancelActivities.find(function (activity) {
+      return normalizeString(activity.ActivityID) === activityID;
+    }) || {};
 
-  Logger.log(
-    "participantName = " + cancelParticipantName,
-  );
+  /**************************************************
+   * V2 → REGISTRATION_CANCELLED
+   **************************************************/
 
-  Logger.log(
-    "contactValue = " + cancelContactValue,
-  );
+  try {
+    Logger.log("===== 开始发送取消报名通知 =====");
 
-  const notificationResult =
-    sendRegistrationCancelledNotificationToV2_({
+    Logger.log("registrationID = " + targetID);
+
+    Logger.log("activityID = " + activityID);
+
+    Logger.log("participantName = " + cancelParticipantName);
+
+    Logger.log("contactValue = " + cancelContactValue);
+
+    const notificationResult = sendRegistrationCancelledNotificationToV2_({
       activityID: activityID,
 
       activityTitle: cancelActivity.Title || "",
@@ -1452,32 +1437,20 @@ try {
       registrationID: targetID,
     });
 
-  Logger.log(
-    "取消报名通知函数返回 = " +
-      JSON.stringify(notificationResult),
-  );
+    Logger.log("取消报名通知函数返回 = " + JSON.stringify(notificationResult));
 
-  Logger.log(
-    "===== 取消报名通知函数执行结束 =====",
-  );
-} catch (error) {
-  Logger.log(
-    "取消报名 V2 通知失败: " +
-      (error.message || error),
-  );
+    Logger.log("===== 取消报名通知函数执行结束 =====");
+  } catch (error) {
+    Logger.log("取消报名 V2 通知失败: " + (error.message || error));
 
-  Logger.log(
-    "错误堆栈 = " +
-      (error.stack || ""),
-  );
-}
+    Logger.log("错误堆栈 = " + (error.stack || ""));
+  }
 
-let promoted = null;
+  let promoted = null;
 
-if (currentStatus === CONFIG.STATUS.CONFIRMED) {
-  promoted = promoteWaitlistCore(activityID);
-}
-
+  if (currentStatus === CONFIG.STATUS.CONFIRMED) {
+    promoted = promoteWaitlistCore(activityID);
+  }
 
   return {
     success: true,
@@ -1565,25 +1538,22 @@ function cancelRegistrationGroupCore(registrationGroupID) {
 
     if (rowGroupID === targetGroupID) {
       rows.push({
-  row: i + 1,
+        row: i + 1,
 
-  registrationID: normalizeString(data[i][idIndex]),
+        registrationID: normalizeString(data[i][idIndex]),
 
-  activityID: normalizeString(data[i][activityIndex]),
+        activityID: normalizeString(data[i][activityIndex]),
 
-  status: normalizeString(data[i][statusIndex]),
+        status: normalizeString(data[i][statusIndex]),
 
-  participantName:
-    nameIndex !== -1
-      ? normalizeString(data[i][nameIndex])
-      : "",
+        participantName:
+          nameIndex !== -1 ? normalizeString(data[i][nameIndex]) : "",
 
-  contactValue:
-    contactValueIndex !== -1
-      ? normalizeString(data[i][contactValueIndex])
-      : "",
-});
-
+        contactValue:
+          contactValueIndex !== -1
+            ? normalizeString(data[i][contactValueIndex])
+            : "",
+      });
     }
   }
 
@@ -1630,129 +1600,78 @@ function cancelRegistrationGroupCore(registrationGroupID) {
     }
   });
 
-SpreadsheetApp.flush();
+  SpreadsheetApp.flush();
 
-/**************************************************
- * 第二阶段：发送取消报名通知
- **************************************************/
+  /**************************************************
+   * 第二阶段：发送取消报名通知
+   **************************************************/
 
-cancelled.forEach(function (item) {
+  cancelled.forEach(function (item) {
+    try {
+      const activities = sheetToJson(CONFIG.SHEETS.ACTIVITIES);
 
-  try {
-
-    const activities =
-      sheetToJson(CONFIG.SHEETS.ACTIVITIES);
-
-    const activity =
-      activities.find(function (a) {
-        return (
-          normalizeString(a.ActivityID) ===
-          item.activityID
-        );
+      const activity = activities.find(function (a) {
+        return normalizeString(a.ActivityID) === item.activityID;
       });
 
-    if (!activity) {
-      Logger.log(
-        "取消报名通知：找不到活动 " +
-        item.activityID
-      );
-      return;
-    }
+      if (!activity) {
+        Logger.log("取消报名通知：找不到活动 " + item.activityID);
+        return;
+      }
 
-    Logger.log(
-      "===== 开始发送取消报名通知 ====="
-    );
+      Logger.log("===== 开始发送取消报名通知 =====");
 
-    Logger.log(
-      "registrationID = " +
-      item.registrationID
-    );
+      Logger.log("registrationID = " + item.registrationID);
 
-    Logger.log(
-      "activityID = " +
-      item.activityID
-    );
+      Logger.log("activityID = " + item.activityID);
 
-    Logger.log(
-      "participantName = " +
-      item.participantName
-    );
+      Logger.log("participantName = " + item.participantName);
 
-    Logger.log(
-      "contactValue = " +
-      item.contactValue
-    );
+      Logger.log("contactValue = " + item.contactValue);
 
-    const notificationResult =
-      sendRegistrationCancelledNotificationToV2_({
+      const notificationResult = sendRegistrationCancelledNotificationToV2_({
         activityID: item.activityID,
 
-        activityTitle:
-          activity.Title || "",
+        activityTitle: activity.Title || "",
 
-        activityDate:
-          activity.ActivityDate || "",
+        activityDate: activity.ActivityDate || "",
 
-        startTime:
-          activity.StartTime || "",
+        startTime: activity.StartTime || "",
 
-        participantName:
-          item.participantName || "",
+        participantName: item.participantName || "",
 
-        contactValue:
-          item.contactValue || "",
+        contactValue: item.contactValue || "",
 
-        registrationID:
-          item.registrationID,
+        registrationID: item.registrationID,
 
-        registrationGroupID:
-          targetGroupID
+        registrationGroupID: targetGroupID,
       });
 
-    Logger.log(
-      "取消报名通知函数返回 = " +
-      JSON.stringify(notificationResult)
-    );
+      Logger.log(
+        "取消报名通知函数返回 = " + JSON.stringify(notificationResult),
+      );
 
-    Logger.log(
-      "===== 取消报名通知函数执行结束 ====="
-    );
+      Logger.log("===== 取消报名通知函数执行结束 =====");
+    } catch (error) {
+      Logger.log("取消报名 V2 通知失败: " + (error.message || error));
 
-  } catch (error) {
+      Logger.log("错误堆栈 = " + (error.stack || ""));
+    }
+  });
 
-    Logger.log(
-      "取消报名 V2 通知失败: " +
-      (error.message || error)
-    );
+  /**************************************************
+   * 第三阶段：统一补位
+   **************************************************/
 
-    Logger.log(
-      "错误堆栈 = " +
-      (error.stack || "")
-    );
+  const promoted = [];
 
-  }
-
-});
-
-/**************************************************
- * 第三阶段：统一补位
- **************************************************/
-
-const promoted = [];
-
-Object.keys(activitiesToPromote).forEach(
-  function (activityID) {
-
-    const result =
-      promoteWaitlistCore(activityID);
+  Object.keys(activitiesToPromote).forEach(function (activityID) {
+    const result = promoteWaitlistCore(activityID);
 
     if (result) {
       promoted.push(result);
     }
-
-  }
-);
-
+  });
 
   Object.keys(activitiesToPromote).forEach(function (activityID) {
     const result = promoteWaitlistCore(activityID);
@@ -2366,10 +2285,7 @@ function promoteWaitlistCore(activityID) {
       status: CONFIG.STATUS.CONFIRMED,
     });
   } catch (error) {
-    Logger.log(
-      "候补自动转正通知创建失败: " +
-        (error.message || error),
-    );
+    Logger.log("候补自动转正通知创建失败: " + (error.message || error));
   }
 
   /**************************************************
@@ -2396,8 +2312,7 @@ function promoteWaitlistCore(activityID) {
     });
   } catch (error) {
     Logger.log(
-      "候补自动转正 REGISTRATION_OK 通知失败: " +
-        (error.message || error),
+      "候补自动转正 REGISTRATION_OK 通知失败: " + (error.message || error),
     );
   }
 
@@ -2428,10 +2343,7 @@ function promoteWaitlistCore(activityID) {
         "状态：CONFIRMED",
     );
   } catch (error) {
-    Logger.log(
-      "候补自动转正管理员 FCM 通知失败: " +
-        (error.message || error),
-    );
+    Logger.log("候补自动转正管理员 FCM 通知失败: " + (error.message || error));
   }
 
   return {
