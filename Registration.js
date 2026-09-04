@@ -1371,6 +1371,81 @@ function cancelRegistrationCore(registrationID) {
 
   SpreadsheetApp.flush();
 
+  /**************************************************
+   * 读取取消报名者资料
+   **************************************************/
+
+  const cancelNameIndex = headers.indexOf("Name");
+
+  const cancelContactValueIndex = headers.indexOf("ContactValue");
+
+  let cancelParticipantName = "";
+
+  let cancelContactValue = "";
+
+  if (cancelNameIndex !== -1) {
+    cancelParticipantName = normalizeString(
+      data[targetRow - 1][cancelNameIndex],
+    );
+  }
+
+  if (cancelContactValueIndex !== -1) {
+    cancelContactValue = normalizeString(
+      data[targetRow - 1][cancelContactValueIndex],
+    );
+  }
+
+  /**************************************************
+   * 读取活动资料
+   **************************************************/
+
+  const cancelActivities = sheetToJson(CONFIG.SHEETS.ACTIVITIES);
+
+  const cancelActivity =
+    cancelActivities.find(function (activity) {
+      return normalizeString(activity.ActivityID) === activityID;
+    }) || {};
+
+  /**************************************************
+   * V2 → REGISTRATION_CANCELLED
+   **************************************************/
+
+  try {
+    Logger.log("===== 开始发送取消报名通知 =====");
+
+    Logger.log("registrationID = " + targetID);
+
+    Logger.log("activityID = " + activityID);
+
+    Logger.log("participantName = " + cancelParticipantName);
+
+    Logger.log("contactValue = " + cancelContactValue);
+
+    const notificationResult = sendRegistrationCancelledNotificationToV2_({
+      activityID: activityID,
+
+      activityTitle: cancelActivity.Title || "",
+
+      activityDate: cancelActivity.ActivityDate || "",
+
+      startTime: cancelActivity.StartTime || "",
+
+      participantName: cancelParticipantName,
+
+      contactValue: cancelContactValue,
+
+      registrationID: targetID,
+    });
+
+    Logger.log("取消报名通知函数返回 = " + JSON.stringify(notificationResult));
+
+    Logger.log("===== 取消报名通知函数执行结束 =====");
+  } catch (error) {
+    Logger.log("取消报名 V2 通知失败: " + (error.message || error));
+
+    Logger.log("错误堆栈 = " + (error.stack || ""));
+  }
+
   let promoted = null;
 
   if (currentStatus === CONFIG.STATUS.CONFIRMED) {
@@ -2133,10 +2208,7 @@ function promoteWaitlistCore(activityID) {
       status: CONFIG.STATUS.CONFIRMED,
     });
   } catch (error) {
-    Logger.log(
-      "候补自动转正通知创建失败: " +
-        (error.message || error),
-    );
+    Logger.log("候补自动转正通知创建失败: " + (error.message || error));
   }
 
   /**************************************************
@@ -2163,8 +2235,7 @@ function promoteWaitlistCore(activityID) {
     });
   } catch (error) {
     Logger.log(
-      "候补自动转正 REGISTRATION_OK 通知失败: " +
-        (error.message || error),
+      "候补自动转正 REGISTRATION_OK 通知失败: " + (error.message || error),
     );
   }
 
@@ -2195,10 +2266,7 @@ function promoteWaitlistCore(activityID) {
         "状态：CONFIRMED",
     );
   } catch (error) {
-    Logger.log(
-      "候补自动转正管理员 FCM 通知失败: " +
-        (error.message || error),
-    );
+    Logger.log("候补自动转正管理员 FCM 通知失败: " + (error.message || error));
   }
 
   return {
