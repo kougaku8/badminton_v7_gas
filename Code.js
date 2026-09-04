@@ -686,6 +686,17 @@ function copyActivity(sourceActivityID, newDate, newTitle) {
 
     appendRow(CONFIG.SHEETS.ACTIVITIES, row);
 
+try {
+  sendActivityNewNotificationToV2_({
+    title: newTitle || "",
+    activityDate: newDate || "",
+    startTime: source.StartTime || "",
+    endTime: source.EndTime || "",
+  });
+} catch (error) {
+  console.error("V2 ACTIVITY_NEW 通知送信失败:", error);
+}
+
     // ==================================================
     // 返回新活动
     // ==================================================
