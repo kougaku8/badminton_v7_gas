@@ -784,6 +784,381 @@
     }
   }
 
+/* =====================================================
+   👴👵 超大字体手机模式
+   老年人友好版
+   请放在 <style> 最后面
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+  body {
+    font-size: 25px;
+    line-height: 1.7;
+  }
+
+  /* ---------- 顶部 ---------- */
+
+  .header {
+    padding: 12px 10px 24px;
+  }
+
+  .header-title {
+    font-size: 48px;
+    line-height: 1.3;
+  }
+
+  .header-subtitle {
+    margin-top: 14px;
+    font-size: 30px;
+    line-height: 1.6;
+  }
+
+  /* ---------- 语言 ---------- */
+
+  .language-switcher {
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .language-button {
+    min-width: 140px;
+    min-height: 70px;
+    padding: 14px 24px;
+    font-size: 28px;
+  }
+
+  .language-divider {
+    font-size: 28px;
+  }
+
+  /* ---------- 返回首页 ---------- */
+
+  .home-button {
+    min-height: 84px;
+    margin-bottom: 20px;
+    padding: 16px 12px;
+    font-size: 30px;
+  }
+
+  /* ---------- 今日签到 ID ---------- */
+
+  .checkin-id-card {
+    margin-bottom: 20px;
+    padding: 38px 10px;
+  }
+
+  .checkin-id-label {
+    margin-bottom: 14px;
+    font-size: 30px;
+    line-height: 1.6;
+  }
+
+  .checkin-id {
+    font-size: 58px;
+    line-height: 1.25;
+    letter-spacing: 3px;
+  }
+
+  .checkin-activity-title {
+    margin-top: 18px;
+    font-size: 32px;
+    line-height: 1.55;
+  }
+
+  .checkin-date {
+    margin-top: 12px;
+    font-size: 28px;
+    line-height: 1.6;
+  }
+
+  /* ---------- 卡片 ---------- */
+
+  .card {
+    margin-bottom: 20px;
+    padding: 28px 12px;
+  }
+
+  .card-title {
+    margin-bottom: 20px;
+    font-size: 34px;
+    line-height: 1.5;
+  }
+
+  /* ---------- 标签 ---------- */
+
+  label {
+    margin-top: 24px;
+    font-size: 29px;
+    line-height: 1.6;
+  }
+
+  /* ---------- 输入框 / 下拉框 ---------- */
+
+  input,
+  select {
+    min-height: 84px;
+    margin-top: 12px;
+    padding: 17px 18px;
+
+    border-width: 3px;
+    border-radius: 14px;
+
+    font-size: 28px;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  input::placeholder {
+    font-size: 26px;
+  }
+
+  /* ---------- 按钮 ---------- */
+
+  button {
+    min-height: 84px;
+    margin-top: 18px;
+    padding: 17px 14px;
+
+    border-radius: 14px;
+
+    font-size: 30px;
+    line-height: 1.5;
+  }
+
+  /* ---------- 今日活动 ---------- */
+
+  .today-activity-list {
+    gap: 14px;
+    margin-top: 18px;
+  }
+
+  .activity-option {
+    min-height: 122px;
+    padding: 18px 16px;
+    border-width: 3px;
+  }
+
+  .activity-option-title {
+    font-size: 30px;
+    line-height: 1.5;
+  }
+
+  .activity-option-info {
+    margin-top: 10px;
+    font-size: 25px;
+    line-height: 1.7;
+  }
+
+  /* ---------- 统计 ---------- */
+
+  .summary {
+    gap: 12px;
+  }
+
+  .summary-box {
+    padding: 24px 8px;
+    border-radius: 16px;
+  }
+
+  .summary-number {
+    font-size: 60px;
+    line-height: 1.15;
+  }
+
+  .summary-label {
+    margin-top: 10px;
+    font-size: 26px;
+    line-height: 1.5;
+  }
+
+  /* ---------- 搜索 ---------- */
+
+  .search-input {
+    min-height: 84px;
+    font-size: 28px;
+  }
+
+  /* ---------- 会员卡片 ---------- */
+
+  .member-card {
+    margin-bottom: 20px;
+    padding: 28px 16px;
+
+    border-left-width: 10px;
+  }
+
+  .member-name {
+    margin-bottom: 14px;
+    font-size: 40px;
+    line-height: 1.5;
+  }
+
+  .member-info {
+    font-size: 28px;
+    line-height: 1.9;
+    font-weight: 700;
+  }
+
+  /* ---------- 签到状态 ---------- */
+
+  .member-status {
+    margin-top: 16px;
+    padding: 12px 19px;
+
+    font-size: 27px;
+    line-height: 1.5;
+  }
+
+  /* ---------- 付款方式 ---------- */
+
+  .payment-select {
+    margin-top: 20px;
+    min-height: 84px;
+    font-size: 28px;
+  }
+
+  /* ---------- 签到按钮 ---------- */
+
+  .checkin-button {
+    min-height: 94px;
+    margin-top: 20px;
+
+    font-size: 32px;
+    line-height: 1.5;
+  }
+
+  /* ---------- 空状态 ---------- */
+
+  .empty {
+    padding: 50px 12px;
+    font-size: 28px;
+    line-height: 1.7;
+  }
+
+  /* ---------- 消息 ---------- */
+
+  .error,
+  .success-message {
+    margin-bottom: 20px;
+    padding: 24px 14px;
+
+    font-size: 27px;
+    line-height: 1.7;
+  }
+
+  .success-message {
+    font-size: 29px;
+  }
+}
+
+
+/* =====================================================
+   👴👵 小手机也保持超大字体
+   ===================================================== */
+
+@media (max-width: 380px) {
+
+  .header-title {
+    font-size: 43px;
+  }
+
+  .header-subtitle {
+    font-size: 27px;
+  }
+
+  .language-button {
+    min-width: 125px;
+    min-height: 66px;
+    font-size: 26px;
+  }
+
+  .home-button {
+    min-height: 80px;
+    font-size: 28px;
+  }
+
+  .checkin-id-label {
+    font-size: 27px;
+  }
+
+  .checkin-id {
+    font-size: 50px;
+  }
+
+  .checkin-activity-title {
+    font-size: 29px;
+  }
+
+  .checkin-date {
+    font-size: 25px;
+  }
+
+  .card-title {
+    font-size: 31px;
+  }
+
+  label {
+    font-size: 27px;
+  }
+
+  input,
+  select {
+    min-height: 80px;
+    font-size: 26px;
+  }
+
+  input::placeholder {
+    font-size: 24px;
+  }
+
+  button {
+    min-height: 80px;
+    font-size: 28px;
+  }
+
+  .activity-option {
+    min-height: 115px;
+  }
+
+  .activity-option-title {
+    font-size: 28px;
+  }
+
+  .activity-option-info {
+    font-size: 23px;
+  }
+
+  .summary-number {
+    font-size: 52px;
+  }
+
+  .summary-label {
+    font-size: 24px;
+  }
+
+  .member-name {
+    font-size: 37px;
+  }
+
+  .member-info {
+    font-size: 26px;
+  }
+
+  .member-status {
+    font-size: 25px;
+  }
+
+  .checkin-button {
+    min-height: 88px;
+    font-size: 30px;
+  }
+
+  .empty {
+    font-size: 26px;
+  }
+}
+
 </style>
 
 </head>
