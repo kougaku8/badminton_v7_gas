@@ -2103,11 +2103,20 @@ function promoteWaitlistCore(activityID) {
    * 通知
    **************************************************/
 
+  /**************************************************
+   * 自动转正通知
+   *
+   * WAITLIST → CONFIRMED
+   *
+   * ContactValue 必须使用当前被转正参加人的
+   * ContactValue。
+   **************************************************/
+
   try {
     createNotification({
       type: "WAITLIST_PROMOTED",
 
-      message: "候补报名成功",
+      message: "候补自动转正成功",
 
       registrationID: registrationID,
 
@@ -2116,9 +2125,80 @@ function promoteWaitlistCore(activityID) {
       activityID: targetActivityID,
 
       contactValue: contactValue,
+
+      participantName: participantName,
+
+      bookerName: bookerName,
+
+      status: CONFIG.STATUS.CONFIRMED,
     });
   } catch (error) {
-    Logger.log("创建候补通知失败: " + error.message);
+    Logger.log(
+      "候补自动转正通知创建失败: " +
+        (error.message || error),
+    );
+  }
+
+  /**************************************************
+   * V2 → REGISTRATION_OK
+   *
+   * 候补转正后，也视为正式报名成功。
+   **************************************************/
+
+  try {
+    sendRegistrationOkNotificationToV2_({
+      activityID: targetActivityID,
+
+      activityTitle: activity.Title || "",
+
+      activityDate: activity.ActivityDate || "",
+
+      startTime: activity.StartTime || "",
+
+      participantName: participantName || "",
+
+      confirmedCount: confirmedCount + 1,
+
+      capacity: capacity,
+    });
+  } catch (error) {
+    Logger.log(
+      "候补自动转正 REGISTRATION_OK 通知失败: " +
+        (error.message || error),
+    );
+  }
+
+  /**************************************************
+   * 管理员 FCM
+   **************************************************/
+
+  try {
+    sendAdminFCMNotification(
+      "🏸 候补自动转正",
+
+      "候补参加者已自动转正。\n" +
+        "报名单：" +
+        (registrationGroupID || "") +
+        "\n" +
+        "活动：" +
+        (activity.Title || "") +
+        "\n" +
+        "报名者：" +
+        (bookerName || "") +
+        "\n" +
+        "参加者：" +
+        (participantName || "") +
+        "\n" +
+        "检索键：" +
+        (contactValue || "") +
+        "\n" +
+        "状态：CONFIRMED",
+    );
+  } catch (error) {
+    Logger.log(
+      "候补自动转正管理员 FCM 通知失败: " +
+        (error.message || error),
+    );
   }
 
   return {

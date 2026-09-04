@@ -1677,3 +1677,111 @@ function sendRegistrationOkNotificationToV2_(data) {
 
   return result;
 }
+
+/****************************************************
+ * V2 → REGISTRATION_CANCELLED
+ *
+ * 取消报名通知
+ ****************************************************/
+
+function sendRegistrationCancelledNotificationToV2_(data) {
+  const v2Url = PropertiesService.getScriptProperties().getProperty(
+    "V2_NOTIFICATION_API_URL",
+  );
+
+  if (!v2Url) {
+    throw new Error(
+      "V2_NOTIFICATION_API_URL が Script Properties に設定されていません。",
+    );
+  }
+
+  const participantName = String(data.participantName || "").trim();
+
+  const activityTitle = String(data.activityTitle || "").trim();
+
+  const activityDate = String(data.activityDate || "").trim();
+
+  const startTime = String(data.startTime || "").trim();
+
+  const payload = {
+    action: "sendNotificationEvent",
+
+    data: {
+      apiKey: getV1ApiKey_(),
+
+      eventType: "REGISTRATION_CANCELLED",
+
+      titleZh: "🏸 报名已取消",
+
+      bodyZh:
+        participantName +
+        " 已取消报名 " +
+        activityTitle +
+        "。\n" +
+        activityDate +
+        " " +
+        startTime,
+
+      titleJa: "🏸 参加申込みをキャンセルしました",
+
+      bodyJa:
+        participantName +
+        "さんが" +
+        activityTitle +
+        "の参加申込みをキャンセルしました。\n" +
+        activityDate +
+        " " +
+        startTime,
+    },
+  };
+
+  const response = UrlFetchApp.fetch(v2Url, {
+    method: "post",
+
+    contentType: "application/json",
+
+    payload: JSON.stringify(payload),
+
+    muteHttpExceptions: true,
+  });
+
+  const statusCode = response.getResponseCode();
+
+  const responseText = response.getContentText();
+
+  console.log(
+    "V2 REGISTRATION_CANCELLED HTTP: " + statusCode,
+  );
+
+  console.log(
+    "V2 REGISTRATION_CANCELLED response: " + responseText,
+  );
+
+  if (statusCode < 200 || statusCode >= 300) {
+    throw new Error(
+      "V2 REGISTRATION_CANCELLED HTTP error: " +
+        statusCode +
+        " / " +
+        responseText,
+    );
+  }
+
+  let result;
+
+  try {
+    result = JSON.parse(responseText);
+  } catch (error) {
+    throw new Error(
+      "V2 REGISTRATION_CANCELLED 返回的 JSON 无法解析。",
+    );
+  }
+
+  if (!result.success) {
+    throw new Error(
+      "V2 REGISTRATION_CANCELLED failed: " +
+        (result.message || "Unknown error"),
+    );
+  }
+
+  return result;
+}
