@@ -91,29 +91,38 @@
            参加者快捷入口
       ====================================================== -->
 
-      <div class="quick-actions">
-        <!-- 签到 -->
+<div class="quick-actions">
+  <!-- 签到 -->
+  <button
+    type="button"
+    class="quick-button checkin"
+    onclick="openCheckin()"
+    data-i18n="checkin"
+  >
+    📱 签到
+  </button>
 
-        <button
-          type="button"
-          class="quick-button checkin"
-          onclick="openCheckin()"
-          data-i18n="checkin"
-        >
-          📱 签到
-        </button>
+  <!-- 我的报名 -->
+  <button
+    type="button"
+    class="quick-button"
+    onclick="openMyRegistration()"
+    data-i18n="myRegistration"
+  >
+    📋 我的报名
+  </button>
 
-        <!-- 我的报名 -->
+  <!-- 通知设置 -->
+  <button
+    type="button"
+    class="quick-button"
+    onclick="openNotificationV2()"
+    data-i18n="notificationSettings"
+  >
+    🔔 通知设置
+  </button>
+</div>
 
-        <button
-          type="button"
-          class="quick-button"
-          onclick="openMyRegistration()"
-          data-i18n="myRegistration"
-        >
-          📋 我的报名
-        </button>
-      </div>
 
       <!-- =====================================================
            查找活动
@@ -358,6 +367,8 @@
 
           checkin: "📱 签到",
 
+          notificationSettings: "🔔 通知设置",
+
           myRegistration: "📋 我的报名",
 
           searchActivity: "🔎 查找活动",
@@ -437,6 +448,8 @@
           checkin: "📱 チェックイン",
 
           myRegistration: "📋 申込み履歴",
+
+          notificationSettings: "🔔 通知設定",
 
           searchActivity: "🔎 イベントを検索",
 
@@ -1210,6 +1223,12 @@
           })
 
           .getWebAppUrl();
+      }
+
+
+      function openNotificationV2() {
+        const url = "https://script.google.com/macros/s/AKfycbxz1vbqjVOIcDD_GenDog-N4eEiD1_rBKHHRl0xovwKT_xfZWwUm0-rjjuNvjYG0Jlj/exec";
+        window.top.location.href = url;
       }
 
       /* =====================================================
