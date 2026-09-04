@@ -937,21 +937,20 @@
 
         .section-heading {
           font-size: 27px;
-
-          margin-bottom: 8px;
+          margin-bottom: 0px;
         }
 
         .description {
-          font-size: 23px;
+          font-size: 32px;
           line-height: 1.7;
         }
 
         .venue-name {
-          font-size: 27px;
+          font-size: 32px;
         }
 
         .venue-detail {
-          font-size: 22px;
+          font-size: 38px;
         }
 
         /* 手机报名表 */
@@ -1432,7 +1431,7 @@
           String(value)
             .replace(/\r\n/g, "\n")
             .replace(/\r/g, "\n");
-
+          text = text.replace(/^[\s\u3000]+/, "");
 
         let lines =
           text.split("\n");
@@ -1878,30 +1877,13 @@
 
               if (description) {
 
-                html += `
+html += `
+  <div class="card">
+    <h2 class="section-heading">${escapeHtml(t("description"))}</h2>
+    <div class="description">${escapeHtml(description)}</div>
+  </div>
+`;
 
-                  <div class="card">
-
-                    <h2 class="section-heading">
-
-                      ${escapeHtml(
-                        t("description")
-                      )}
-
-                    </h2>
-
-
-                    <div class="description">
-
-                      ${escapeHtml(
-                        description
-                      )}
-
-                    </div>
-
-                  </div>
-
-                `;
 
               }
 
@@ -1975,7 +1957,7 @@
 
                     <div class="venue-detail">
 
-                      ${escapeHtml(
+                      🏸 ${escapeHtml(
                         v.Description
                       )}
 

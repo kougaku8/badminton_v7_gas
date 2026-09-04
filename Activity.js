@@ -123,7 +123,7 @@ function debugActivities() {
 }
 
 function testGetActivityDetailNew() {
-  const result = getActivityDetail("ACT260821002115171");
+  const result = getActivityDetail("ACT260830233041465");
 
   Logger.log(JSON.stringify(result, null, 2));
 }
